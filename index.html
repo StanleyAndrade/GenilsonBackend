@@ -8,9 +8,20 @@
     <script src="./src/assets/js/axiosAPI.js"></script>
 </head>
 <body>
+    <h1 id="dados">Dados</h1>
+    <form action="cadastrarForm">
+        <h5>Cadastrar produtos</h5>
+        Nome: <input type="text"><br>
+        Descrição: <input type="text"><br>
+        Preço: <input type="text"><br>
+        Imagem: <input type="text"><br>
+        <input type="submit" value="Cadastrar">
+    </form>
+
     <h1>API</h1>
     <button onclick="get()">GET</button>
-    <button onclick="teste()">POST</button>
+    <button onclick="getId()">GET por Id</button>
+    <button onclick="post()">POST</button>
     <button onclick="put()">PUT</button>
     <button onclick="patch()">PATCH</button>
     <button onclick="del()">DELETE</button>

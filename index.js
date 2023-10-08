@@ -29,10 +29,6 @@ app.use('/', home)
 const db = require('./src/routers/db')
 app.use('/', db)
 
-// * ====== pedido ====== *
-const pedido = require('./src/routers/pedido')
-app.use('/', pedido)
-
 // * ========== ROUTERS ======== *
 
 
