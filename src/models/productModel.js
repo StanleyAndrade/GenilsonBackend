@@ -9,12 +9,25 @@ const produtoSchema = new mongoose.Schema({
     },
     descricao: {
         type: String,
-        required: true
+        required: false
     },
     preco: {
-        type: Number,
+        type: String,
         required: true
     },
+    tamanhos: {
+        type: Array,
+        require: false
+    },
+    sabores: {
+        type: Array,
+        require: false
+    }, 
+    userid: {
+        type: String,
+        required: false
+    },
+    categoria: {type: mongoose.Schema.Types.ObjectId, ref: 'Categoria'}
 })
 
 //Exporting Model

@@ -1,7 +1,3 @@
-//Databasepage
-
-const axios = require('axios')
-
 //importing Express
 const express = require('express')
 const db = express()
@@ -15,11 +11,20 @@ db.use(cors())
 
 //importing Model
 const Produto = require('../models/productModel')
-const pedidoModel = require('../models/pedidoModel')
-
 
 
 // * =========================== ROUTERS =========================== *
+
+// Rota pra pegar produtos por categoria
+db.get('/produtos/:categoriaId', async (req, res) => {
+  try {
+    const { categoriaId } = req.params;
+    const produtos = await Produto.find({ categoria: categoriaId });
+    res.json(produtos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // * ====== GET - All collections ====== *
 db.get('/api/produtos', async (req, res) => {
@@ -33,28 +38,28 @@ db.get('/api/produtos', async (req, res) => {
 
 // * ====== POST ====== *
 db.post('/api/produtos', async (req, res) => {
-    const { nome, descricao, preco } = req.body;
+    const { nome, descricao, tamanhos, sabores, preco, userid, categoria } = req.body;
   
     try {
-      const novoProduto = new Produto({ nome, descricao, preco });
+      const novoProduto = new Produto({ nome, descricao, tamanhos, sabores, preco, userid, categoria });
       const produtoSalvo = await novoProduto.save();
       res.json(produtoSalvo);
     } catch (error) {
       console.error('Erro ao criar produto:', error);
       res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
-  });
+});
 
-// * ====== PUT ====== *
+// * ====== PATCH ====== *
 // Rota para atualizar um produto por ID.
 db.patch('/api/produtos/:id', async (req, res) => {
     const { id } = req.params;
-    const { nome, descricao, preco } = req.body;
+    const { nome, descricao, tamanhos, sabores, preco, userid } = req.body;
   
     try {
       const produtoAtualizado = await Produto.findByIdAndUpdate(
         id,
-        { nome, descricao, preco },
+        { nome, descricao, tamanhos, sabores, preco },
         { new: true } // Isso retorna o objeto atualizado em vez do antigo.
       );
   
@@ -67,19 +72,7 @@ db.patch('/api/produtos/:id', async (req, res) => {
       console.error('Erro ao atualizar produto:', error);
       res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
-  });
-
-// * ====== PATCH ====== *
-db.patch('/create:id', async (req, res) => {
-    const id = req.params.id
-    try {
-        const patch = new Produto.updateOne(req.body)
-        //const update = await productModel.updateOne({ _id: id }) (NÃO PEGOU)
-        res.status(200).json(update)
-    } catch (error) {
-        res.status(500).send('Deu erro' + error.message)
-    }
-})
+});
 
 // * ====== DELETE ====== *
 db.delete('/api/produtos/:id', async (req, res) => {

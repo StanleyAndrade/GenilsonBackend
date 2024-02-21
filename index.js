@@ -8,26 +8,41 @@ connectMongoDBWithMongoose()
 
 //Importing Express and put inside "const app"
 const express = require('express')
+const morgan = require('morgan') //ajuda nas requisções http mostrando tipo e tempo de resposta
 const app = express()
-
-//signaling that will receive JSON
-app.use(express.json())
-
-//importing cors
-const cors = require('cors')
+app.use(express.json()) //signaling that will receive JSON
+app.use(express.urlencoded({extended: true})) //facilita a parte de envio de arquivos
+app.use(morgan('dev'))
+const cors = require('cors') //importing cors
 app.use(cors())
 
 
 
 // * ========== ROUTERS ======== *
 
-// * ====== home ====== *
-const home = require('./src/routers/home')
-app.use('/', home)
+// * ====== Product ====== *
+const routerProduct = require('./src/routers/routerProduct')
+app.use('/', routerProduct)
 
-// * ====== db ====== *
-const db = require('./src/routers/db')
-app.use('/', db)
+// * ====== Pedido ====== *
+const routerPedido = require('./src/routers/routerPedido')
+app.use('/', routerPedido)
+
+// * ====== User   ====== *
+const routerUser = require('./src/routers/routerUser')
+app.use('/', routerUser)
+
+// * ====== UserStore   ====== *
+const routerUserStore = require('./src/routers/routerUserStore')
+app.use('/', routerUserStore)
+
+// * ====== Categoria   ====== *
+const routerCategoria = require('./src/routers/routerCategoria')
+app.use('/', routerCategoria)
+
+// * ====== UserStore   ====== *
+const routerS3 = require('./src/routers/routerS3')
+app.use('/', routerS3)
 
 // * ========== ROUTERS ======== *
 

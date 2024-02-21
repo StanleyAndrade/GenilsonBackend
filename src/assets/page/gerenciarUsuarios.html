@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Usuários</title>
+</head>
+<body>
+  <h2>Lista de Usuários</h2>
+  <ul id="product-list"></ul>
+  
+  <h2>Criar Novo Usuário</h2>
+  <form id="create-product-form">
+    <label for="name">Nome:</label>
+    <input type="text" id="name" required><br>
+    
+    <label for="nascimento"> Data de Nascimento:</label>
+    <input type="text" id="nascimento" required><br>
+    
+    <label for="phone">Celular:</label>
+    <input type="text" id="phone" required><br>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" required><br>
+
+
+    <label for="password">Senha:</label>
+    <input type="text" id="password" required><br>
+    
+    <button type="submit">Criar</button>
+  </form>
+
+
+<div id="edit-product-form" style="display: none;">
+  <h2>Editar Usuário</h2>
+  <form id="edit-form">
+    <input type="hidden" id="edit-product-id">
+    
+    <label for="edit-name">Nome:</label>
+    <input type="text" id="edit-name" required><br>
+
+    <label for="edit-nascimento">Data de Nascimento:</label>
+    <input type="text" id="edit-nascimento" required><br>
+
+    <label for="edit-phone">Celular:</label>
+    <input type="text" id="edit-phone" required><br>
+
+    <label for="edit-email">Email:</label>
+    <input type="text" id="edit-email" required><br>
+
+    <label for="edit-password">Senha:</label>
+    <input type="text" id="edit-password" required><br>
+
+    <button type="submit">Salvar</button>
+  </form>
+</div>
+<!-- ... -->
+
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/src/assets/js/userFrontend.js"></script>
+</body>
+</html>

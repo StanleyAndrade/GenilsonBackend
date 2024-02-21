@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Produtos</title>
+  <title>Lista de Usuários</title>
 </head>
 <body>
   <h2>Lista de Produtos</h2>
@@ -14,31 +14,41 @@
     <label for="nome">Nome:</label>
     <input type="text" id="nome" required><br>
     
-    <label for="descricao">Descrição:</label>
+    <label for="descricao"> Descrição</label>
     <input type="text" id="descricao" required><br>
     
-    <label for="preco">Preço:</label>
-    <input type="number" id="preco" required><br>
+    <label for="tamanhos">Tamanhos</label>
+    <input type="text" id="tamanhos"><br>
+
+    <label for="sabores">Sabores</label>
+    <input type="text" id="sabores"><br>
+
+    <label for="preco">Preço</label>
+    <input type="text" id="preco" required><br>
     
     <button type="submit">Criar</button>
   </form>
-
-
-<!-- ... -->
 
 
 <div id="edit-product-form" style="display: none;">
   <h2>Editar Produto</h2>
   <form id="edit-form">
     <input type="hidden" id="edit-product-id">
+    
     <label for="edit-nome">Nome:</label>
     <input type="text" id="edit-nome" required><br>
 
     <label for="edit-descricao">Descrição:</label>
     <input type="text" id="edit-descricao" required><br>
 
-    <label for="edit-preco">Preço:</label>
-    <input type="number" id="edit-preco" required><br>
+    <label for="edit-tamanhos">Tamanhos:</label>
+    <input type="text" id="edit-tamanhos"><br>
+
+    <label for="edit-sabores">Sabores:</label>
+    <input type="text" id="edit-sabores"><br>
+
+    <label for="edit-preco">Preço</label>
+    <input type="text" id="edit-preco" required><br>
 
     <button type="submit">Salvar</button>
   </form>
@@ -48,6 +58,6 @@
   
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="script.js"></script>
+  <script src="/src/assets/js/productFrontend.js"></script>
 </body>
 </html>

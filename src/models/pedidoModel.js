@@ -1,32 +1,30 @@
 //importing mongoose
 const mongoose = require('mongoose')
 
-//importing other model
-const {productSchema} = require("./productModel")
-
 //Defining Model
 const pedidoSchema = new mongoose.Schema({
-    name: {
+    nome: {
         type: String,
         required: true
     },
-    phone: {
+    descricao: {
+        type: String,
+        required: false
+    },
+    preco: {
         type: String,
         required: true
     },
-    email: {
-        type: Number,
-        required: true
+    tamanhos: {
+        type: Array,
+        require: false
     },
-    image: {
-        type: String,
-        required: true
-    },
-    producto: {
-        type: [productSchema]
-    }   
-}, {timestamps: true})
+    sabores: {
+        type: Array,
+        require: false
+    }
+})
 
-//Exporting Model
+// Exporting Model
 const pedidoModel = mongoose.model('pedidoModel', pedidoSchema)
-module.exports = pedidoModel
+module.exports = pedidoModel, pedidoSchema
