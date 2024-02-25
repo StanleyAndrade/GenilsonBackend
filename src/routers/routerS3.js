@@ -1,8 +1,8 @@
 const express = require('express');
+const routerS3 = express();
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' }); // Pasta onde os arquivos serão temporariamente armazenados
-const routerS3 = express();
 routerS3.use(bodyParser.urlencoded({ extended: true }));
 routerS3.use(bodyParser.json());
 const AWS = require('aws-sdk');
@@ -48,7 +48,9 @@ routerS3.post('/upload', upload.single('file'), async (req, res) => {
   
       const data = await s3.upload(params).promise();
       console.log("Arquivo enviado com sucesso", data.Location);
-      res.send(data.Location); // Retorna a URL do arquivo no S3
+      //res.send(data.Location); // Retorna a URL do arquivo no S3
+      res.json({ imageUrl: data.Location, imageKey: params.Key });
+
     } catch (error) {
       console.error("Erro ao enviar para o S3", error);
       res.status(500).send("Erro ao fazer upload");

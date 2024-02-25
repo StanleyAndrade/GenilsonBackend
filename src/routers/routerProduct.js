@@ -1,21 +1,30 @@
 //importing Express
 const express = require('express')
 const db = express()
-
 //signaling that it will be receive JSON
 db.use(express.json())
-
 //importing cors
 const cors = require('cors')
 db.use(cors())
-
-//importing Model
+//importing Model Produto
 const Produto = require('../models/productModel')
 
 
 // * =========================== ROUTERS =========================== *
 
-// Rota pra pegar produtos por categoria
+// * ====== GET - Todos os produtos ====== *
+db.get('/api/produtos', async (req, res) => {
+  const all = await Produto.find()
+  try {
+  return res.status(200).json(all)
+ } catch (error) {
+  return res.status(500).send('Deu erro' + error.message)
+ }
+})
+// * ====== GET - Todos os produtos ====== *
+
+
+// * ====== GET - Por categoria ====== *
 db.get('/produtos/:categoriaId', async (req, res) => {
   try {
     const { categoriaId } = req.params;
@@ -25,23 +34,15 @@ db.get('/produtos/:categoriaId', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+// * ====== GET - Por categoria ====== *
 
-// * ====== GET - All collections ====== *
-db.get('/api/produtos', async (req, res) => {
-    const all = await Produto.find()
-    try {
-    return res.status(200).json(all)
-   } catch (error) {
-    return res.status(500).send('Deu erro' + error.message)
-   }
-})
 
-// * ====== POST ====== *
+// * ====== POST - Cadastra os Produtos ====== *
 db.post('/api/produtos', async (req, res) => {
-    const { nome, descricao, tamanhos, sabores, preco, userid, categoria } = req.body;
+    const { nome, descricao, tamanhos, sabores, preco, userid, imageUrl, imageKey, categoria } = req.body;
   
     try {
-      const novoProduto = new Produto({ nome, descricao, tamanhos, sabores, preco, userid, categoria });
+      const novoProduto = new Produto({ nome, descricao, tamanhos, sabores, preco, userid, imageUrl, imageKey, categoria });
       const produtoSalvo = await novoProduto.save();
       res.json(produtoSalvo);
     } catch (error) {
@@ -49,17 +50,18 @@ db.post('/api/produtos', async (req, res) => {
       res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
 });
+// * ====== POST - Cadastra os Produtos ====== *
 
-// * ====== PATCH ====== *
-// Rota para atualizar um produto por ID.
+
+// * ====== PATCH - Atualiza os produtos por ID ====== *
 db.patch('/api/produtos/:id', async (req, res) => {
     const { id } = req.params;
-    const { nome, descricao, tamanhos, sabores, preco, userid } = req.body;
+    const { nome, descricao, tamanhos, sabores, preco, userid, imageUrl, imageKey, } = req.body;
   
     try {
       const produtoAtualizado = await Produto.findByIdAndUpdate(
         id,
-        { nome, descricao, tamanhos, sabores, preco },
+        { nome, descricao, tamanhos, sabores, preco, userid, imageUrl, imageKey, },
         { new: true } // Isso retorna o objeto atualizado em vez do antigo.
       );
   
@@ -73,8 +75,10 @@ db.patch('/api/produtos/:id', async (req, res) => {
       res.status(500).json({ mensagem: 'Erro interno do servidor' });
     }
 });
+// * ====== PATCH - Atualiza os produtos por ID ====== *
 
-// * ====== DELETE ====== *
+
+// * ====== DELETE - Deleta os produtos ====== *
 db.delete('/api/produtos/:id', async (req, res) => {
 const { id } = req.params;
 
@@ -86,6 +90,7 @@ const { id } = req.params;
     res.status(500).json({ mensagem: 'Erro interno do servidor' });
   }
 })
+// * ====== DELETE - Deleta os produtos ====== *
 
 // * =========================== ROUTERS =========================== *
 
