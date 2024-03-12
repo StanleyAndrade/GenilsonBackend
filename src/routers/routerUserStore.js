@@ -128,7 +128,7 @@ routerUserStore.post('/login/store', (req, res) => {
 
           // Crie um token JWT
           const secretKey = '123'; // Substitua com a sua chave secreta
-          const token = jwt.sign({ email, result }, secretKey, {expiresIn: '24'});
+          const token = jwt.sign({ email, result }, secretKey, {expiresIn: '24h'});
           return res.json({ auth: true, token });
         })
         .catch(err => {
