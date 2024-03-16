@@ -72,7 +72,7 @@ db.patch('/api/produtos/:id', async (req, res) => {
       res.json(produtoAtualizado);
     } catch (error) {
       console.error('Erro ao atualizar produto:', error);
-      res.status(500).json({ mensagem: 'Erro interno do servidor' });
+      res.status(500).json({ mensagem: 'Erro interno do servidor ao atualizar produto' });
     }
 });
 // * ====== PATCH - Atualiza os produtos por ID ====== *
