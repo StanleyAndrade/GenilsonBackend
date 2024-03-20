@@ -1,9 +1,19 @@
 const express = require('express');
-const router = express.Router();
+const routerCategoria = express.Router();
 const Categoria = require('../models/categoriaModel');
 
+// Rota para buscar todas as categorias
+routerCategoria.get('/categorias/buscar', async (req, res) => {
+  try {
+    const categorias = await Categoria.find();
+    res.json(categorias);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Rota para criar uma nova categoria
-router.post('/categorias', async (req, res) => {
+routerCategoria.post('/categorias/criar', async (req, res) => {
   try {
     const novaCategoria = new Categoria(req.body);
     await novaCategoria.save();
@@ -13,18 +23,8 @@ router.post('/categorias', async (req, res) => {
   }
 });
 
-// Rota para buscar todas as categorias
-router.get('/categorias', async (req, res) => {
-  try {
-    const categorias = await Categoria.find();
-    res.json(categorias);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
 // PATCH - Rota para editar categoria por ID
-router.patch('/categorias/:id', async (req, res) => {
+routerCategoria.patch('/categorias/editar/:id', async (req, res) => {
   const { id } = req.params;
   const {nome} = req.body;
 
@@ -44,7 +44,7 @@ router.patch('/categorias/:id', async (req, res) => {
 
 
 // Rota para apagar Categoria
-router.delete('/categoria/delete/:id', async (req, res) => {
+routerCategoria.delete('/categoria/delete/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await Categoria.findByIdAndDelete(id)
@@ -54,4 +54,4 @@ router.delete('/categoria/delete/:id', async (req, res) => {
   }
 })
 
-module.exports = router;
+module.exports = routerCategoria;

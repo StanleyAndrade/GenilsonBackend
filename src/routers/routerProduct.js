@@ -13,7 +13,7 @@ const Produto = require('../models/productModel')
 // * =========================== ROUTERS =========================== *
 
 // * ====== GET - Todos os produtos ====== *
-db.get('/api/produtos', async (req, res) => {
+db.get('/produtos/buscar', async (req, res) => {
   const all = await Produto.find()
   try {
   return res.status(200).json(all)
@@ -38,7 +38,7 @@ db.get('/produtos/:categoriaId', async (req, res) => {
 
 
 // * ====== POST - Cadastra os Produtos ====== *
-db.post('/api/produtos', async (req, res) => {
+db.post('/produtos/criar', async (req, res) => {
     const { nome, descricao, tamanhos, sabores, preco, userid, imageUrl, imageKey, categoria } = req.body;
   
     try {
@@ -54,7 +54,7 @@ db.post('/api/produtos', async (req, res) => {
 
 
 // * ====== PATCH - Atualiza os produtos por ID ====== *
-db.patch('/api/produtos/:id', async (req, res) => {
+db.patch('/produtos/editar/:id', async (req, res) => {
     const { id } = req.params;
     const { nome, descricao, tamanhos, sabores, preco, userid, imageUrl, imageKey, } = req.body;
   
@@ -79,7 +79,7 @@ db.patch('/api/produtos/:id', async (req, res) => {
 
 
 // * ====== DELETE - Deleta os produtos ====== *
-db.delete('/api/produtos/:id', async (req, res) => {
+db.delete('/produtos/deletar/:id', async (req, res) => {
 const { id } = req.params;
 
   try {

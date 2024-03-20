@@ -19,6 +19,10 @@ const userStoreSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    horarioDeFuncionamento: {
+        type: String,
+        required: false
+    },
     time: {
         type: String,
         required: false
@@ -38,6 +42,10 @@ const userStoreSchema = new mongoose.Schema({
     token: {
         type: String,
         required: false
+    },
+    username: {
+        type: String,
+        required: true
     }
                                                                                                                                                                               
 }, {timestamps: true})

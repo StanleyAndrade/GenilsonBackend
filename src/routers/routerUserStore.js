@@ -26,7 +26,7 @@ const cookieParser = require("cookie-parser")
 routerUserStore.use(cookieParser())
 
 // * ==================== GET - Pega todos os usuários ==================== *
-routerUserStore.get('/user/store', async (req, res) => {
+routerUserStore.get('/userstore/buscar', async (req, res) => {
     const all = await UserStore.find()
 
     try {
@@ -35,12 +35,11 @@ routerUserStore.get('/user/store', async (req, res) => {
       return res.status(500).send('Deu erro' + error.message)
     }
 })
-// * ==================== GET - Pega todos os usuários ==================== *
+
 
 // * ==================== GET - Por ID ==================== *
-//Essa rota só funciona se o ID do usuário estiver no "caminho"
 //Ex.: http://localhost:3000/user/65a837b2111f4fb66d63c4be
-routerUserStore.get('/user/store/:id', async (req, res) => {
+routerUserStore.get('/userstore/buscar/:id', async (req, res) => {
   try {
     const userId = req.params.id;
     const user = await UserStore.findById(userId)
@@ -54,12 +53,28 @@ routerUserStore.get('/user/store/:id', async (req, res) => {
       return res.status(500).send('Deu erro' + error.message)
   }
 })
-// * ==================== GET - Por ID ==================== *
 
+// Rota para buscar o perfil do usuário pelo nome de usuário e exibir na url
+routerUserStore.get('/:username', async (req, res) => {
+  try {
+      const username = req.params.username;
+      const user = await UserStore.findOne({ username });
+
+      if (!user) {
+          return res.status(404).json({ message: 'Usuário não encontrado' });
+      }
+
+      // Retorne os detalhes do usuário, como desejado
+      return res.status(200).json(user);
+  } catch (error) {
+      console.error('Erro ao buscar usuário:', error);
+      res.status(500).json({ message: 'Erro ao buscar usuário', });
+  }
+});
 
 //*===================== CADASTRAR USUÁRIO =====================*
-routerUserStore.post('/register/store', (req, res) => {
-    const { name, endereco, phone, email, time, payment, nameperson, password} = req.body;
+routerUserStore.post('/userstore/criar', (req, res) => {
+    const { name, endereco, phone, email, horarioDeFuncionamento, time, payment, nameperson, password, username} = req.body;
 
     // Verifique se o usuário já existe
     UserStore.findOne({ email })
@@ -78,16 +93,18 @@ routerUserStore.post('/register/store', (req, res) => {
                         endereco,
                         phone,
                         email,
+                        horarioDeFuncionamento,
                         time,
                         payment,
                         nameperson,
                         password: hashedPassword,
+                        username,
                     });
 
                     // Salve o usuário no banco de dados
                     newUser.save()
-                        .then(() => {
-                            res.status(201).json({ message: 'Usuário registrado com sucesso' });
+                        .then((savedUser) => {
+                          res.status(201).json({ message: 'Usuário registrado com sucesso' });
                         })
                         .catch((error) => {
                             console.error('Erro ao criar usuário:', error);
@@ -109,7 +126,7 @@ routerUserStore.post('/register/store', (req, res) => {
 
 
 //*===================== lOGIN =====================*
-routerUserStore.post('/login/store', (req, res) => {
+routerUserStore.post('/userstore/login', (req, res) => {
   const { email, password } = req.body;
 
   // Encontre o usuário pelo email
@@ -145,7 +162,7 @@ routerUserStore.post('/login/store', (req, res) => {
 
 
 //*===================== GET - ROTA PROTEGIDA =====================*
-routerUserStore.get('/protected/store/get', (req, res) => {
+routerUserStore.get('/protected/userstore/buscar', (req, res) => {
   //recebe o token do frontend
   const token = req.headers.authorization;
 
@@ -182,9 +199,11 @@ routerUserStore.get('/protected/store/get', (req, res) => {
         endereco: user.endereco,
         phone: user.phone,
         email: user.email,
+        horarioDeFuncionamento: user.horarioDeFuncionamento,
         time: user.time,
         payment: user.payment,
         nameperson: user.nameperson,
+        username: user.username,
       }
 
       //envia o userData para o frontend
@@ -198,7 +217,7 @@ routerUserStore.get('/protected/store/get', (req, res) => {
 });
 //*===================== GET - ROTA PROTEGIDA =====================*
 
-routerUserStore.patch('/protected/store', (req, res) => {
+routerUserStore.patch('/protected/userstore/editar', (req, res) => {
   // Recebe o token do frontend
   const token = req.headers.authorization;
 
@@ -238,9 +257,11 @@ routerUserStore.patch('/protected/store', (req, res) => {
         endereco: user.endereco,
         phone: user.phone,
         email: user.email,
+        horarioDeFuncionamento: user.horarioDeFuncionamento,
         time: user.time,
         payment: user.payment,
         nameperson: user.nameperson,
+        username: user.username,
       };
 
       // Retorna os dados do usuário atualizados para o frontend
