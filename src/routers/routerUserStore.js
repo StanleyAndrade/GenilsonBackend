@@ -195,6 +195,7 @@ routerUserStore.get('/protected/userstore/buscar', (req, res) => {
 
       //Pega e retorna os dados do usuário
       const userData = {
+        _id: user._id,
         name: user.name,
         endereco: user.endereco,
         phone: user.phone,

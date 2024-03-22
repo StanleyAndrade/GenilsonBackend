@@ -29,6 +29,7 @@ routerPedido.get('/pedidos', async (req, res) => {
 
 
 
+
 // * ========================= POST ========================= *
 routerPedido.post('/pedidos', async (req, res) => {
     const { nome, descricao, tamanhos, sabores, preco } = req.body;

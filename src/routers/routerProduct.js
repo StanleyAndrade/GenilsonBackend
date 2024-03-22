@@ -36,15 +36,28 @@ db.get('/produtos/:categoriaId', async (req, res) => {
 });
 // * ====== GET - Por categoria ====== *
 
+// pela pelo id username
+db.get('/produtos/user/:userid', async (req, res) => {
+  const { userid } = req.params;
+  try {
+      const userProducts = await Produto.find({ userid });
+      return res.status(200).json(userProducts);
+  } catch (error) {
+      return res.status(500).send('Erro ao buscar os pedidos do usuário: ' + error.message);
+  }
+});
+
+
 
 // * ====== POST - Cadastra os Produtos ====== *
 db.post('/produtos/criar', async (req, res) => {
     const { nome, descricao, tamanhos, sabores, preco, userid, imageUrl, imageKey, categoria } = req.body;
+    
   
     try {
       const novoProduto = new Produto({ nome, descricao, tamanhos, sabores, preco, userid, imageUrl, imageKey, categoria });
-      const produtoSalvo = await novoProduto.save();
-      res.json(produtoSalvo);
+      await novoProduto.save();
+      res.status(200).json(novoProduto);
     } catch (error) {
       console.error('Erro ao criar produto:', error);
       res.status(500).json({ mensagem: 'Erro interno do servidor' });
