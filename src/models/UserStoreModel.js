@@ -46,7 +46,15 @@ const userStoreSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true
-    }
+    },
+    imageUrl: {
+        type: String,
+        required: false
+    },
+    imageKey: {
+        type: String,
+        required: false
+    }, 
                                                                                                                                                                               
 }, {timestamps: true})
 

@@ -23,20 +23,7 @@ db.get('/produtos/buscar', async (req, res) => {
 })
 // * ====== GET - Todos os produtos ====== *
 
-
-// * ====== GET - Por categoria ====== *
-db.get('/produtos/:categoriaId', async (req, res) => {
-  try {
-    const { categoriaId } = req.params;
-    const produtos = await Produto.find({ categoria: categoriaId });
-    res.json(produtos);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-// * ====== GET - Por categoria ====== *
-
-// pela pelo id username
+// Pega todos os produtos com o id do usuário
 db.get('/produtos/user/:userid', async (req, res) => {
   const { userid } = req.params;
   try {
@@ -46,6 +33,20 @@ db.get('/produtos/user/:userid', async (req, res) => {
       return res.status(500).send('Erro ao buscar os pedidos do usuário: ' + error.message);
   }
 });
+
+// * ====== GET - Por categoria ====== *
+db.get('/produtos/:categoriaId/:userid', async (req, res) => {
+  try {
+    const { categoriaId, userid } = req.params;
+    const produtos = await Produto.find({ categoria: categoriaId, userid });
+    res.json(produtos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// * ====== GET - Por categoria ====== *
+
+
 
 
 

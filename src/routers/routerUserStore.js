@@ -74,7 +74,7 @@ routerUserStore.get('/:username', async (req, res) => {
 
 //*===================== CADASTRAR USUÁRIO =====================*
 routerUserStore.post('/userstore/criar', (req, res) => {
-    const { name, endereco, phone, email, horarioDeFuncionamento, time, payment, nameperson, password, username} = req.body;
+    const { name, endereco, phone, email, horarioDeFuncionamento, time, payment, nameperson, password, username, imageUrl, imageKey} = req.body;
 
     // Verifique se o usuário já existe
     UserStore.findOne({ email })
@@ -99,6 +99,8 @@ routerUserStore.post('/userstore/criar', (req, res) => {
                         nameperson,
                         password: hashedPassword,
                         username,
+                        imageUrl,
+                        imageKey,
                     });
 
                     // Salve o usuário no banco de dados
@@ -205,6 +207,8 @@ routerUserStore.get('/protected/userstore/buscar', (req, res) => {
         payment: user.payment,
         nameperson: user.nameperson,
         username: user.username,
+        imageUrl: user.imageUrl,
+        imageKey: user.imageKey,
       }
 
       //envia o userData para o frontend
@@ -263,6 +267,8 @@ routerUserStore.patch('/protected/userstore/editar', (req, res) => {
         payment: user.payment,
         nameperson: user.nameperson,
         username: user.username,
+        imageUrl: user.imageUrl,
+        imageKey: user.imageKey,
       };
 
       // Retorna os dados do usuário atualizados para o frontend

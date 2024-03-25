@@ -2,7 +2,7 @@ const express = require('express');
 const routerCategoria = express.Router();
 const Categoria = require('../models/categoriaModel');
 
-// Rota para buscar todas as categorias
+// Rota para buscar todas as categorias - NÃO VAI SER MAIS USADA
 routerCategoria.get('/categorias/buscar', async (req, res) => {
   try {
     const categorias = await Categoria.find();
