@@ -160,7 +160,7 @@ routerUserStore.post('/userstore/login', (req, res) => {
       res.status(500).json({ message: 'Erro ao buscar o usuário' });
     });
 });
-//*===================== lOGIN =====================*
+
 
 
 //*===================== GET - ROTA PROTEGIDA =====================*

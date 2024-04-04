@@ -5,28 +5,29 @@ const mongoose = require('mongoose')
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: false
     },
-    nascimento: {
+    endereco: {
         type: String,
-        require: true
+        require: false
     }, 
     phone: {
         type: String,
-        required: true
+        required: false
     },
     email: {
         type: String,
-        required: true
+        required: false
     },
     password: {
         type: String,
-        require: true
+        require: false
     },
     token: {
         type: String,
         required: false
     }
+
    
 }, {timestamps: true})
 

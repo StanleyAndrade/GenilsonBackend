@@ -22,7 +22,16 @@ const pedidoSchema = new mongoose.Schema({
     sabores: {
         type: Array,
         require: false
-    }
+    },
+    observacao: {
+        type: String,
+        required: false
+    },
+    userid: {
+        type: String,
+        required: false
+    },
+    //
 })
 
 // Exporting Model
