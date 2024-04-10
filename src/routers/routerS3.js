@@ -11,8 +11,8 @@ const path = require('path');
 
 // Configure AWS SDK with your credentials
 AWS.config.update({
-  accessKeyId: 'AKIAR4RVBCLLGNUNEFPJ',
-  secretAccessKey: 'jthmxcpO72rdLw9SS+oyknUwduyu/Ccyqv5paH7s'
+  accessKeyId: '',
+  secretAccessKey: ''
 });
 
 // Create S3 instance
