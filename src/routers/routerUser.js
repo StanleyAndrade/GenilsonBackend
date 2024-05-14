@@ -25,15 +25,6 @@ const cookieParser = require("cookie-parser")
 
 routerUser.use(cookieParser())
 
-routerUser.get("/um", (req, res) => {
-  res.render("Login")
-})
-
-routerUser.get('/dois', (req, res) => {
-  res.render("Signup")
-})
-
-
 // * ==================== GET - Pega todos os usuários ==================== *
 routerUser.get('/user', async (req, res) => {
     const all = await User.find()
@@ -44,10 +35,37 @@ routerUser.get('/user', async (req, res) => {
    }
 })
 
+routerUser.get('/user/:email', async (req, res) => {
+  try {
+      const email = req.params.email; // Obtenha o e-mail da consulta
+
+      // Verifique se o e-mail está presente
+      if (!email) {
+          return res.status(400).json({ message: 'E-mail não fornecido' });
+      }
+
+      // Encontre o usuário pelo e-mail
+      const user = await User.findOne({ email });
+      
+      // Verifique se o usuário foi encontrado
+      if (!user) {
+          return res.status(404).json({ message: 'Usuário não encontrado' });
+      }
+
+      // Se o usuário foi encontrado, retorne seus dados
+      return res.status(200).json(user);
+  } catch (error) {
+      console.error('Erro ao buscar usuário:', error);
+      return res.status(500).send('Erro interno do servidor');
+  }
+});
+
+
+
 
 //*===================== CADASTRAR USUÁRIO =====================*
 routerUser.post('/user/criar', (req, res) => {
-    const { name, phone, email, nascimento, password} = req.body;
+    const { name, phone, email, password, username} = req.body;
 
     // Verifique se o usuário já existe
     User.findOne({ email })
@@ -65,8 +83,8 @@ routerUser.post('/user/criar', (req, res) => {
                         name,
                         phone,
                         email,
-                        endereco,
                         password: hashedPassword,
+                        username
                     });
 
                     // Salve o usuário no banco de dados
@@ -80,8 +98,8 @@ routerUser.post('/user/criar', (req, res) => {
                                 name,
                                 phone,
                                 email,
-                                endereco,
                                 password: hashedPassword,
+                                username
                                 }
                                });
                         })
@@ -101,7 +119,23 @@ routerUser.post('/user/criar', (req, res) => {
         });
 });
 
+// Rota para buscar o perfil do usuário pelo nome de usuário e exibir na url
+routerUser.get('/:username', async (req, res) => {
+  try {
+      const username = req.params.username;
+      const user = await User.findOne({ username });
 
+      if (!user) {
+          return res.status(404).json({ message: 'Usuário não encontrado' });
+      }
+
+      // Retorne os detalhes do usuário, como desejado
+      return res.status(200).json(user);
+  } catch (error) {
+      console.error('Erro ao buscar usuário:', error);
+      res.status(500).json({ message: 'Erro ao buscar usuário', });
+  }
+});
 
 //*===================== lOGIN =====================*
 routerUser.post('/user/login', (req, res) => {

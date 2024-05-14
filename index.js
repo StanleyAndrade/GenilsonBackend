@@ -24,10 +24,6 @@ app.use(cors())
 const routerProduct = require('./src/routers/routerProduct')
 app.use('/', routerProduct)
 
-// * ====== Pedido ====== *
-const routerPedido = require('./src/routers/routerPedido')
-app.use('/', routerPedido)
-
 // * ====== User   ====== *
 const routerUser = require('./src/routers/routerUser')
 app.use('/', routerUser)
@@ -43,6 +39,14 @@ app.use('/', routerCategoria)
 // * ====== UserStore   ====== *
 const routerS3 = require('./src/routers/routerS3')
 app.use('/', routerS3)
+
+// Perimetria
+const routerPerimetria = require('./src/routers/routerPerimetria')
+app.use('/', routerPerimetria)
+
+// Dobras Cutaneas
+const routerDobrasCutaneas = require('./src/routers/routerDobrasCutaneas')
+app.use('/', routerDobrasCutaneas)
 
 // * ========== ROUTERS ======== *
 

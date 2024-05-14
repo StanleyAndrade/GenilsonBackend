@@ -45,7 +45,7 @@ const userStoreSchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        required: true
+        required: false
     },
     imageUrl: {
         type: String,

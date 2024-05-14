@@ -7,8 +7,7 @@ db.use(express.json())
 const cors = require('cors')
 db.use(cors())
 //importing Model Produto
-const Produto = require('../models/productModel')
-
+const Produto = require('../models/perimetriaModel')
 
 // * =========================== ROUTERS =========================== *
 
@@ -21,7 +20,6 @@ db.get('/produtos/buscar', async (req, res) => {
   return res.status(500).send('Deu erro' + error.message)
  }
 })
-// * ====== GET - Todos os produtos ====== *
 
 // Pega todos os produtos com o id do usuário
 db.get('/produtos/user/:userid', async (req, res) => {
@@ -53,8 +51,6 @@ db.get('/produtos/:categoriaId/:userid', async (req, res) => {
 // * ====== POST - Cadastra os Produtos ====== *
 db.post('/produtos/criar', async (req, res) => {
     const { nome, descricao, tamanhos, sabores, preco, userid, imageUrl, imageKey, categoria } = req.body;
-    
-  
     try {
       const novoProduto = new Produto({ nome, descricao, tamanhos, sabores, preco, userid, imageUrl, imageKey, categoria });
       await novoProduto.save();

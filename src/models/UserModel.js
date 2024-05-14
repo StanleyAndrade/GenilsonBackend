@@ -7,10 +7,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    endereco: {
+    username: {
         type: String,
-        require: false
-    }, 
+        required: false
+    },
     phone: {
         type: String,
         required: false
@@ -26,9 +26,7 @@ const userSchema = new mongoose.Schema({
     token: {
         type: String,
         required: false
-    }
-
-   
+    }   
 }, {timestamps: true})
 
 //Exporting Model
