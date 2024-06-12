@@ -1,7 +1,8 @@
-//importing mongoose
-const mongoose = require('mongoose')
+// importing mongoose
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
-//Defining Model
+// Defining Model
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -17,18 +18,35 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: false
+        required: false,
+        unique: true // Tornar o email único
     },
     password: {
         type: String,
-        require: false
+        required: false
     },
     token: {
         type: String,
         required: false
-    }   
-}, {timestamps: true})
+    },
+    resetPasswordToken: {
+        type: String,
+        required: false
+    },
+    resetPasswordExpires: {
+        type: Date,
+        required: false
+    }
+}, { timestamps: true });
 
-//Exporting Model
-const userModel = mongoose.model('userModel', userSchema)
-module.exports = userModel
+// Middleware de hashing de senha antes de salvar
+userSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
+
+// Exporting Model
+const userModel = mongoose.model('userModel', userSchema);
+module.exports = userModel;

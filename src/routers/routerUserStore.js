@@ -55,10 +55,10 @@ routerUserStore.get('/userstore/buscar/:id', async (req, res) => {
 })
 
 // Rota para buscar o perfil do usuário pelo nome de usuário e exibir na url
-routerUserStore.get('/:username', async (req, res) => {
+routerUserStore.get('/:storename', async (req, res) => {
   try {
-      const username = req.params.username;
-      const user = await UserStore.findOne({ username });
+      const storename = req.params.storename;
+      const user = await UserStore.findOne({ storename });
 
       if (!user) {
           return res.status(404).json({ message: 'Usuário não encontrado' });
@@ -119,8 +119,7 @@ routerUserStore.post('/userstore/criar', (req, res) => {
                 });
         })
         .catch((error) => {
-            console.error('Erro ao verificar usuário existente:', error);
-            res.status(500).json({ message: 'Erro ao verificar usuário existente:' });
+            res.status(500).json({ message: `Erro ao verificar usuário existente: ${error.message}`, });
         });
 });
 //*===================== CADASTRAR USUÁRIO =====================*

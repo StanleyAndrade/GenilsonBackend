@@ -41,6 +41,27 @@ routerDobrasCutaneas.get('/dobrascutaneas/:userid', async (req, res) => {
     }
 });
 
+// GET - Busca perimetrias pelo id do usuário
+routerDobrasCutaneas.get('/dobrascutaneasPersonal/:storeid', async (req, res) => {
+    const { storeid } = req.params;
+
+    try {
+        // Encontre as perimetrias associadas ao storeid fornecido
+        const dobrascutaneas = await DobrasCutaneasModel.find({ storeid });
+
+        // Verifique se foram encontradas dobrascutaneas
+        if (!dobrascutaneas || dobrascutaneas.length === 0) {
+            return res.status(404).json({ mensagem: 'Nenhuma perimetria encontrada para este usuário' });
+        }
+
+        // Se as dobrascutaneas foram encontradas, retorne-as
+        return res.status(200).json(dobrascutaneas);
+    } catch (error) {
+        console.error('Erro ao buscar dobrascutaneas:', error);
+        return res.status(500).json({ mensagem: 'Erro interno do servidor' });
+    }
+});
+
 
 module.exports = routerDobrasCutaneas
 

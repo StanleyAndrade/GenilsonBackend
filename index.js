@@ -48,6 +48,17 @@ app.use('/', routerPerimetria)
 const routerDobrasCutaneas = require('./src/routers/routerDobrasCutaneas')
 app.use('/', routerDobrasCutaneas)
 
+// Treino
+const routerTreino = require('./src/routers/routerTreino')
+app.use('/', routerTreino)
+
+// Treino Gym
+const routerTreinoGym = require('./src/routers/routertreinogym')
+app.use('/', routerTreinoGym)
+
+const resetPasswordRouter = require('./src/routers/ResetPasswordRequest');
+app.use('/', resetPasswordRouter);
+
 // * ========== ROUTERS ======== *
 
 
@@ -56,4 +67,4 @@ app.use('/', routerDobrasCutaneas)
 const port = 8080
 
 //Function that will be executed when the server become online
-app.listen(port, () => console.log(`Rodando com Express na porta ${port}`))
+app.listen(port, '0.0.0.0', () => console.log(`Rodando com Express na porta ${port}`))

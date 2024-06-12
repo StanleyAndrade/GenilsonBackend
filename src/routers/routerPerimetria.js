@@ -41,6 +41,27 @@ routerPerimetria.get('/perimetria/:userid', async (req, res) => {
     }
 });
 
+// GET - Busca perimetrias pelo id do usuário
+routerPerimetria.get('/perimetriaPersonal/:storeid', async (req, res) => {
+    const { storeid } = req.params;
+
+    try {
+        // Encontre as perimetrias associadas ao storeid fornecido
+        const perimetrias = await PerimetriaModel.find({ storeid });
+
+        // Verifique se foram encontradas perimetrias
+        if (!perimetrias || perimetrias.length === 0) {
+            return res.status(404).json({ mensagem: 'Nenhuma perimetria encontrada para este usuário' });
+        }
+
+        // Se as perimetrias foram encontradas, retorne-as
+        return res.status(200).json(perimetrias);
+    } catch (error) {
+        console.error('Erro ao buscar perimetrias:', error);
+        return res.status(500).json({ mensagem: 'Erro interno do servidor' });
+    }
+});
+
 module.exports = routerPerimetria
 
                                                                                                                                                                                                                                                   
