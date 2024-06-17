@@ -59,6 +59,9 @@ app.use('/', routerTreinoGym)
 const resetPasswordRouter = require('./src/routers/ResetPasswordRequest');
 app.use('/', resetPasswordRouter);
 
+const routerResetPasswordUserStore = require('./src/routers/ResetPasswordRequestUserStore')
+app.use('/', routerResetPasswordUserStore)
+
 // * ========== ROUTERS ======== *
 
 

@@ -1,5 +1,6 @@
 //importing mongoose
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt');
 
 //Defining Model
 const userStoreSchema = new mongoose.Schema({
@@ -33,7 +34,7 @@ const userStoreSchema = new mongoose.Schema({
     },
     nameperson: {
         type: String,
-        require: true
+        require: false
     },
     password: {
         type: String,
@@ -55,8 +56,24 @@ const userStoreSchema = new mongoose.Schema({
         type: String,
         required: false
     }, 
+    resetPasswordToken: {
+        type: String,
+        required: false
+    },
+    resetPasswordExpires: {
+        type: Date,
+        required: false
+    }
                                                                                                                                                                               
 }, {timestamps: true})
+
+// Middleware de hashing de senha antes de salvar
+userStoreSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
 
 //Exporting Model
 const userStoreModel = mongoose.model('userStoreModel', userStoreSchema)
