@@ -4,7 +4,7 @@
 const mongoose = require('mongoose');
 
 // Importando a função de recuperação de parâmetros do AWS Parameter Store
-const { getAWSSecrets } = require('../aws-parameter-store');
+const { getAWSSecrets } = require('../routers/aws-parameter-store');
 
 // Função para conectar ao MongoDB com os parâmetros do Parameter Store
 const connectMongoDBWithMongoose = async () => {
