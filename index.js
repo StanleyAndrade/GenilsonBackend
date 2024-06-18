@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 // Importando a função de recuperação de parâmetros do AWS Parameter Store
-const { getAWSSecrets } = require('./aws-parameter-store');
+const { getAWSSecrets } = require('./src/routers/aws-parameter-store');
 
 //importing MongoDB + Mongoose
 const connectMongoDBWithMongoose = require('./src/database/connectMongoDBWithMongoose')
