@@ -1,26 +1,17 @@
-// connectMongoDBWithMongoose.js
+//Connecting MongoDB With Mongoose
 
-// Importando mongoose
-const mongoose = require('mongoose');
+//importing mongoose
+const mongoose = require('mongoose')
 
-// Importando a função de recuperação de parâmetros do AWS Parameter Store
-const { getAWSSecrets } = require('../routers/aws-parameter-store');
-
-// Função para conectar ao MongoDB com os parâmetros do Parameter Store
+//Connecting MongoDB to Mongoose. Var with a function inside
 const connectMongoDBWithMongoose = async () => {
-    try {
-        const mongoUsername = await getAWSSecrets('/MONGODB_USERNAME');
-        const mongoPassword = await getAWSSecrets('/MONGODB_PASSWORD');
-        const mongoURI = `mongodb+srv://${mongoUsername}:${mongoPassword}@gym.pdslmkj.mongodb.net/?retryWrites=true&w=majority`;
+    await mongoose.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@gym.pdslmkj.mongodb.net/?retryWrites=true&w=majority`, {
+    }).then(() => {
+        console.log('Conectado ao MongoDB')
+    }).catch((error) => {
+        console.log('Erro ao conectar ao MongoDB ' + error)
+    })
+    
+}
 
-        await mongoose.connect(mongoURI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log('Conectado ao MongoDB');
-    } catch (error) {
-        console.log('Erro ao conectar ao MongoDB ' + error);
-    }
-};
-
-module.exports = connectMongoDBWithMongoose;
+module.exports = connectMongoDBWithMongoose
