@@ -76,7 +76,9 @@ app.use('/', routerResetPasswordUserStore)
 const port = 8080
 
 //Function that will be executed when the server become online
-app.listen(port, '0.0.0.0', () => console.log(`Rodando com Express na porta ${port}`))
+//app.listen(port, '0.0.0.0', () => console.log(`Rodando com Express na porta ${port}`))
+
+app.listen(8080, '15.228.166.75', () => console.log("Rodando com Express na porta 8080"))
 
 // //Function that will be executed when the server become online
 // https.createServer(credentials, app).listen(port, '0.0.0.0', () => {
