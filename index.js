@@ -15,7 +15,11 @@ app.use(express.json()) //signaling that will receive JSON
 app.use(express.urlencoded({extended: true})) //facilita a parte de envio de arquivos
 app.use(morgan('dev'))
 const cors = require('cors') //importing cors
-app.use(cors())
+app.use(cors({
+    origin: 'https://fittreinoapp.vercel.app/', // Substitua pelo domínio do seu frontend em produção
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type,Authorization'
+}))
 //importing https and fs
 const https = require('https');
 const fs = require('fs');
