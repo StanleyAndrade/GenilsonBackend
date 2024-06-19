@@ -67,10 +67,10 @@ app.use('/', routerResetPasswordUserStore)
 
 // * ========== ROUTERS ======== *
 
-// Reading SSL certificate and key
-const privateKey = fs.readFileSync('/caminho/para/sua/chave/privada.pem', 'utf8');
-const certificate = fs.readFileSync('/caminho/para/seu/certificado/certificado.pem', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
+// // Reading SSL certificate and key
+// const privateKey = fs.readFileSync('/caminho/para/sua/chave/privada.pem', 'utf8');
+// const certificate = fs.readFileSync('/caminho/para/seu/certificado/certificado.pem', 'utf8');
+// const credentials = { key: privateKey, cert: certificate };
 
 //defining port
 const port = 8080
