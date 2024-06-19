@@ -16,7 +16,9 @@ app.use(express.urlencoded({extended: true})) //facilita a parte de envio de arq
 app.use(morgan('dev'))
 const cors = require('cors') //importing cors
 app.use(cors())
-
+//importing https and fs
+const https = require('https');
+const fs = require('fs');
 
 
 // * ========== ROUTERS ======== *
@@ -65,10 +67,18 @@ app.use('/', routerResetPasswordUserStore)
 
 // * ========== ROUTERS ======== *
 
-
+// Reading SSL certificate and key
+const privateKey = fs.readFileSync('/caminho/para/sua/chave/privada.pem', 'utf8');
+const certificate = fs.readFileSync('/caminho/para/seu/certificado/certificado.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
 
 //defining port
 const port = 8080
 
 //Function that will be executed when the server become online
 app.listen(port, '0.0.0.0', () => console.log(`Rodando com Express na porta ${port}`))
+
+// //Function that will be executed when the server become online
+// https.createServer(credentials, app).listen(port, '0.0.0.0', () => {
+//     console.log(`Rodando com Express na porta ${port} via HTTPS`);
+// });
