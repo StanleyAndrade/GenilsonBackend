@@ -82,7 +82,10 @@ const port = 8080
 //Function that will be executed when the server become online
 app.listen(port, '0.0.0.0', () => console.log(`Rodando com Express na porta ${port}`))
 
-//app.listen(8080, '0.0.0.0', () => console.log("Rodando com Express na porta 8080"))
+https.createServer({
+    cert: fs.readFileSync('ssl/certificado.crt'),
+    key: fs.readFileSync('ssl/chaveprivada.key')
+}, app).listen(3000, () => console.log("Rodando em https") )
 
 // //Function that will be executed when the server become online
 // https.createServer(credentials, app).listen(port, '0.0.0.0', () => {
