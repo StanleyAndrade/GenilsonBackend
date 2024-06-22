@@ -16,9 +16,9 @@ app.use(express.urlencoded({extended: true})) //facilita a parte de envio de arq
 app.use(morgan('dev'))
 const cors = require('cors') //importing cors
 app.use(cors({
-    origin: 'https://fittreinoapp.vercel.app/', // Substitua pelo domínio do seu frontend em produção
-    methods: 'GET,POST,PUT,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type,Authorization'
+    // origin: 'https://fittreinoapp.vercel.app/', // Substitua pelo domínio do seu frontend em produção
+    // methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    // allowedHeaders: 'Content-Type,Authorization'
 }))
 //importing https and fs
 const https = require('https');

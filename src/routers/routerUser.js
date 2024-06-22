@@ -203,8 +203,6 @@ routerUser.post('/user/login', (req, res) => {
 });
 
 
-
-//*===================== ROTA PROTEGIDA =====================*
 //*===================== ROTA PROTEGIDA =====================*
 routerUser.get('/protected/user/buscar', (req, res) => {
   // Recebe o token do frontend
@@ -252,6 +250,57 @@ routerUser.get('/protected/user/buscar', (req, res) => {
         console.error('Erro ao buscar usuário:', err);
         res.status(500).json({ message: 'Erro interno do servidor' });
       });
+  });
+});
+
+routerUser.patch('/protected/userstore/editar', (req, res) => {
+  // Recebe o token do frontend
+  const token = req.headers.authorization;
+
+  // Se não houver token, retorna esse código
+  if (!token) {
+    return res.status(401).json({ message: 'Token não fornecido' });
+  }
+
+  // Chave secreta
+  const secretKey = '123';
+
+  // Verifica o token
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      // Se o token for inválido, retorna um erro
+      return res.status(401).json({ message: 'Token inválido' });
+    }
+
+    // Decodifique o token para obter informações do usuário
+    const userEmail = decoded.email;
+
+    // Busque os dados do usuário com base no email
+    User.findOneAndUpdate(
+      { email: userEmail },
+      { $set: req.body }, // Use req.body para obter os dados a serem atualizados
+      { new: true } // Retorna o novo objeto atualizado
+    )
+    .then((user) => {
+      // Verifica se o usuário existe
+      if (!user) {
+        return res.status(404).json({ message: 'Usuário não encontrado' });
+      }
+
+      // Retorna os dados atualizados do usuário
+      const userData = {
+        name: user.name,
+        email: user.email,
+        username: user.username,
+      };
+
+      // Retorna os dados do usuário atualizados para o frontend
+      res.json({ message: 'Dados do usuário atualizados com sucesso', userData });
+    })
+    .catch((error) => {
+      console.error('Erro ao atualizar os dados do usuário:', error);
+      res.status(500).json({ message: 'Erro ao atualizar os dados do usuário' });
+    });
   });
 });
 
