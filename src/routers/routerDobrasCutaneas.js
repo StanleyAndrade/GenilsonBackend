@@ -9,9 +9,9 @@ const DobrasCutaneasModel = require('../models/dobracutaneaModel')
 
 // Post
 routerDobrasCutaneas.post('/dobrascutaneas/criar', async (req, res) => {
-    const { subescapular, triciptal, abdominal, suprailiaca, peitoral, coxa, biciptal, axilarmedia, panturrilhamedia, somatoriodasdobras, resultadopercentualdegordura, pesoatual, pesogordo, pesomagro, pesoideal, idade, userid, storeid} = req.body
+    const { subescapular, triciptal, abdominal, suprailiaca, peitoral, coxa, biciptal, axilarmedia, panturrilhaMedia, somatoriodasdobras, resultadopercentualdegordura, pesoatual, pesogordo, pesomagro, pesoideal, idade, userid, storeid} = req.body
     try {
-        const novaDobraCutanea = new DobrasCutaneasModel({ subescapular, triciptal, abdominal, suprailiaca, peitoral, coxa, biciptal, axilarmedia, panturrilhamedia, somatoriodasdobras, resultadopercentualdegordura, pesoatual, pesogordo, pesomagro, pesoideal, idade, userid, storeid})
+        const novaDobraCutanea = new DobrasCutaneasModel({ subescapular, triciptal, abdominal, suprailiaca, peitoral, coxa, biciptal, axilarmedia, panturrilhaMedia, somatoriodasdobras, resultadopercentualdegordura, pesoatual, pesogordo, pesomagro, pesoideal, idade, userid, storeid})
         await novaDobraCutanea.save()
         res.status(200).json(novaDobraCutanea)
     } catch (error) {
