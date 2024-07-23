@@ -5,31 +5,31 @@ const mongoose = require('mongoose')
 const dobrasCutaneasSchema = new mongoose.Schema ({
     peitoral:{
         type: String,
-        required: true
+        required: false
     },
     axilarmedia:{
         type: String,
-        required: true
+        required: false
     },
     triciptal: {
         type: String,
-        required: true
+        required: false
     },
     subescapular:{
         type: String,
-        required: true
+        required: false
     },
     abdominal:{
         type: String,
-        required: true
+        required: false
     },
     suprailiaca:{
         type: String,
-        required: true
+        required: false
     },
     coxa:{
         type: String,
-        required: true
+        required: false
     },
     biciptal: {
         type: String,
@@ -41,15 +41,15 @@ const dobrasCutaneasSchema = new mongoose.Schema ({
     },
     somatoriodasdobras:{
         type: String,
-        required: true
+        required: false
     },
     resultadopercentualdegordura:{
         type: String,
-        required: true
+        required: false
     },
     pesoatual:{
         type: String,
-        required: true
+        required: false
     },
     pesogordo:{
         type: String,
@@ -65,7 +65,7 @@ const dobrasCutaneasSchema = new mongoose.Schema ({
     },
     idade: {
         type: String,
-        required: true
+        required: false
     },
     userid: {
         type: String,
@@ -75,7 +75,7 @@ const dobrasCutaneasSchema = new mongoose.Schema ({
         type: String,
         required: false
     }
-}, {timestamps: true})
+}, {timestamps: false})
 
 //Put calcSchema inside CalcModel
 const DobrasCutaneasModel = mongoose.model('dobrascutaneas', dobrasCutaneasSchema)

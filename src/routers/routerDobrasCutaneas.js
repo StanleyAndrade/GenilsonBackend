@@ -20,6 +20,18 @@ routerDobrasCutaneas.post('/dobrascutaneas/criar', async (req, res) => {
     }
 })
 
+// GET - Busca todas as dobras cutâneas
+routerDobrasCutaneas.get('/dobrascutaneas/tudo', async (req, res) => {
+    try {
+        const dobrascutaneas = await DobrasCutaneasModel.find();
+        return res.status(200).json(dobrascutaneas);
+    } catch (error) {
+        console.error('Erro ao buscar dobrascutaneas:', error);
+        return res.status(500).json({ mensagem: 'Erro interno do servidor' });
+    }
+});
+
+
 // GET - Busca perimetrias pelo id do usuário
 routerDobrasCutaneas.get('/dobrascutaneas/:userid', async (req, res) => {
     const { userid } = req.params;

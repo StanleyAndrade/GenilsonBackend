@@ -2,63 +2,81 @@ const express = require('express');
 const routerTreino = express.Router();
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const Treino = require('../models/treinoModel');
 const authenticateToken = require('./middleware/authMiddleware');
+const Treino = require('../models/treinoModel')
 
 routerTreino.use(express.json());
 routerTreino.use(cors());
 
 // Rota para buscar todos os treinos
 routerTreino.get('/treino/buscar', async (req, res) => {
-    const all = await Treino.find();
     try {
+        const all = await Treino.find();
         return res.status(200).json(all);
     } catch (error) {
         return res.status(500).send('Deu erro' + error.message);
     }
 });
 
-// Rota para buscar treino pelo ID do usuário
-routerTreino.get('/treino/:userid', async (req, res) => {
-    const { userid } = req.params;
-
+// Rota para buscar o perfil do usuário pelo nome de usuário e exibir na url
+routerTreino.get('/prova/:nameUrl', async (req, res) => {
     try {
-        const treino = await Treino.find({ userid });
-
-        if (!treino || treino.length === 0) {
-            return res.status(404).json({ mensagem: 'Nenhum treino encontrado para este usuário' });
+        const nameUrl = req.params.nameUrl;
+        const url = await Treino.findOne({ nameUrl });
+  
+        if (!url) {
+            return res.status(404).json({ message: 'nameUrl não encontrada' });
         }
-
-        return res.status(200).json(treino);
+  
+        // Retorne os detalhes do usuário, como desejado
+        return res.status(200).json(url);
     } catch (error) {
-        console.error('Erro ao buscar treino:', error);
-        return res.status(500).json({ mensagem: 'Erro interno do servidor' });
+        console.error('Erro ao buscar nameUrl:', error);
+        res.status(500).json({ message: 'Erro ao buscar nameUrl', });
     }
 });
 
-// Rota para buscar treino pelo ID do personal
-routerTreino.get('/treinoPersonal/:storeid', async (req, res) => {
-    const { storeid } = req.params;
+// // Rota para buscar treino pelo ID do usuário
+// routerTreino.get('/treino/:userid', async (req, res) => {
+//     const { userid } = req.params;
 
-    try {
-        const treino = await Treino.find({ storeid });
+//     try {
+//         const treino = await Treino.find({ userid });
 
-        if (!treino || treino.length === 0) {
-            return res.status(404).json({ mensagem: 'Nenhum treino encontrado para este personal' });
-        }
+//         if (!treino || treino.length === 0) {
+//             return res.status(404).json({ mensagem: 'Nenhum treino encontrado para este usuário' });
+//         }
 
-        return res.status(200).json(treino);
-    } catch (error) {
-        console.error('Erro ao buscar treino:', error);
-        return res.status(500).json({ mensagem: 'Erro interno do servidor' });
-    }
-});
+//         return res.status(200).json(treino);
+//     } catch (error) {
+//         console.error('Erro ao buscar treino:', error);
+//         return res.status(500).json({ mensagem: 'Erro interno do servidor' });
+//     }
+// });
+
+// // Rota para buscar treino pelo ID do personal
+// routerTreino.get('/treinoPersonal/:storeid', async (req, res) => {
+//     const { storeid } = req.params;
+
+//     try {
+//         const treino = await Treino.find({ storeid });
+
+//         if (!treino || treino.length === 0) {
+//             return res.status(404).json({ mensagem: 'Nenhum treino encontrado para este personal' });
+//         }
+
+//         return res.status(200).json(treino);
+//     } catch (error) {
+//         console.error('Erro ao buscar treino:', error);
+//         return res.status(500).json({ mensagem: 'Erro interno do servidor' });
+//     }
+// });
 
 // Rota para criar treino
 routerTreino.post('/treino/criar', authenticateToken, async (req, res) => {
-    const { treino1, treino2, treino3, treino4, treino5, treino6, treino7, userid, storeid } = req.body;
+    const { treino1, treino2, treino3, treino4, treino5, userid, storeid, nameUrl, nameProva } = req.body;
     try {
-        const novoTreino = new Treino({ treino1, treino2, treino3, treino4, treino5, treino6, treino7, userid, storeid });
+        const novoTreino = new Treino({ treino1, treino2, treino3, treino4, treino5, userid, storeid, nameUrl, nameProva });
         await novoTreino.save();
         res.status(200).json(novoTreino);
     } catch (error) {
@@ -88,15 +106,14 @@ routerTreino.delete('/treino/:id', authenticateToken, async (req, res) => {
     const treinoId = req.params.id;
 
     try {
-        // Lógica para deletar o treino com o ID especificado
         await Treino.findByIdAndDelete(treinoId);
-
         res.status(200).json({ message: 'Treino deletado com sucesso' });
     } catch (error) {
         console.error('Erro ao deletar treino:', error);
         res.status(500).json({ message: 'Erro interno do servidor' });
     }
 });
+
 
 
 module.exports = routerTreino;

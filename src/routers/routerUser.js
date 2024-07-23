@@ -86,7 +86,7 @@ routerUser.post('/user/criar', (req, res) => {
                       name,
                       phone,
                       email,
-                      password: hashedPassword,
+                      password,
                       username
                   });
 
@@ -101,7 +101,7 @@ routerUser.post('/user/criar', (req, res) => {
                                   name,
                                   phone,
                                   email,
-                                  password: hashedPassword,
+                                  password,
                                   username
                               }
                           });

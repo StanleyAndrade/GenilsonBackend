@@ -15,24 +15,23 @@ app.use(express.urlencoded({ extended: true })); // facilita a parte de envio de
 app.use(morgan('dev'));
 
 const cors = require('cors'); // importando cors
-const allowedOrigins = [
-    'https://user.fittreinoapp.com',
-    'https://dashboard.fittreinoapp.com'
-];
+// const allowedOrigins = [
+//     'http://localhost:3000',
+// ];
 
-const corsOptions = {
-    origin: (origin, callback) => {
-        if (allowedOrigins.includes(origin) || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-};
+// const corsOptions = {
+//     origin: (origin, callback) => {
+//         if (allowedOrigins.includes(origin) || !origin) {
+//             callback(null, true);
+//         } else {
+//             callback(new Error('Not allowed by CORS'));
+//         }
+//     },
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type', 'Authorization']
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // Importando https e fs
 const https = require('https');
@@ -81,6 +80,15 @@ app.use('/', resetPasswordRouter);
 
 const routerResetPasswordUserStore = require('./src/routers/ResetPasswordRequestUserStore');
 app.use('/', routerResetPasswordUserStore);
+
+const routerURL = require('./src/routers/routerUrlsave')
+app.use('/', routerURL)
+
+const routerCurso = require('./src/routers/routerCurso')
+app.use('/', routerCurso)
+
+// const routerQuiz = require('./src/routers/quiz')
+// app.use('/', routerQuiz)
 
 // * ========== ROUTERS ======== *
 

@@ -21,19 +21,19 @@ const treinoSchema = new mongoose.Schema({
         type: Array,
         required: false
     },
-    treino6: {
-        type: Array,
-        required: false
-    },
-    treino7: {
-        type: Array,
-        required: false
-    },
     userid: {
         type: String,
         required: false
     }, 
     storeid: {
+        type: String,
+        required: false
+    },
+    nameUrl: {
+        type: String,
+        required: false
+    },
+    nameProva: {
         type: String,
         required: false
     }
