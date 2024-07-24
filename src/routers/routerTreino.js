@@ -74,9 +74,9 @@ routerTreino.get('/prova/:nameUrl', async (req, res) => {
 
 // Rota para criar treino
 routerTreino.post('/treino/criar', authenticateToken, async (req, res) => {
-    const { treino1, treino2, treino3, treino4, treino5, userid, storeid, nameUrl, nameProva } = req.body;
+    const { treino1, treino2, treino3, treino4, treino5, userid, storeid, nameUrl, nameProva, linkUrl } = req.body;
     try {
-        const novoTreino = new Treino({ treino1, treino2, treino3, treino4, treino5, userid, storeid, nameUrl, nameProva });
+        const novoTreino = new Treino({ treino1, treino2, treino3, treino4, treino5, userid, storeid, nameUrl, nameProva, linkUrl });
         await novoTreino.save();
         res.status(200).json(novoTreino);
     } catch (error) {

@@ -78,7 +78,7 @@ const dobrasCutaneasSchema = new mongoose.Schema ({
 }, {timestamps: false})
 
 //Put calcSchema inside CalcModel
-const DobrasCutaneasModel = mongoose.model('dobrascutaneas', dobrasCutaneasSchema)
+const DobrasCutaneasModel = mongoose.model('histotico', dobrasCutaneasSchema)
 
 //exporting
 module.exports = DobrasCutaneasModel

@@ -18,10 +18,28 @@ routerCurso.get('/curso/buscar', async (req, res) => {
     }
 });
 
-routerCurso.post('/curso/criar', authenticateToken, async (req, res) => {
-    const { titulo, conteudo, nameUrl } = req.body;
+// Rota para buscar o perfil do usuário pelo nome de usuário e exibir na url
+routerCurso.get('/curso/:nameUrl', async (req, res) => {
     try {
-        const novoCurso = new Curso({ titulo, conteudo, nameUrl });
+        const nameUrl = req.params.nameUrl;
+        const url = await Curso.findOne({ nameUrl });
+  
+        if (!url) {
+            return res.status(404).json({ message: 'nameUrl não encontrada' });
+        }
+  
+        // Retorne os detalhes do usuário, como desejado
+        return res.status(200).json(url);
+    } catch (error) {
+        console.error('Erro ao buscar nameUrl:', error);
+        res.status(500).json({ message: 'Erro ao buscar nameUrl', });
+    }
+});
+
+routerCurso.post('/curso/criar', authenticateToken, async (req, res) => {
+    const { titulo, conteudo, nameUrl, linkUrl } = req.body;
+    try {
+        const novoCurso = new Curso({ titulo, conteudo, nameUrl, linkUrl });
         await novoCurso.save();
         res.status(200).json(novoCurso);
     } catch (error) {

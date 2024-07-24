@@ -13,6 +13,10 @@ const cursoSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    linkUrl: {
+        type: String,
+        required: false
+    }
 })
 
 const cursoModel = mongoose.model('cursomodel', cursoSchema)

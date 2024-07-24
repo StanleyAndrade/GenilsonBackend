@@ -15,23 +15,25 @@ app.use(express.urlencoded({ extended: true })); // facilita a parte de envio de
 app.use(morgan('dev'));
 
 const cors = require('cors'); // importando cors
-// const allowedOrigins = [
-//     'http://localhost:3000',
-// ];
+const allowedOrigins = [
+    'https://cestsegtrabalho.com.br',
+    'https://api.cestsegtrabalho.com.br',
+    'https://app.cestsegtrabalho.com.br',
+];
 
-// const corsOptions = {
-//     origin: (origin, callback) => {
-//         if (allowedOrigins.includes(origin) || !origin) {
-//             callback(null, true);
-//         } else {
-//             callback(new Error('Not allowed by CORS'));
-//         }
-//     },
-//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//     allowedHeaders: ['Content-Type', 'Authorization']
-// };
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 // Importando https e fs
 const https = require('https');

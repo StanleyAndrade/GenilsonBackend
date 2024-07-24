@@ -36,8 +36,12 @@ const treinoSchema = new mongoose.Schema({
     nameProva: {
         type: String,
         required: false
+    }, 
+    linkUrl: {
+        type: String,
+        required: false
     }
 })
 
-const treinoModel = mongoose.model('treinomodel', treinoSchema)
+const treinoModel = mongoose.model('provamodel', treinoSchema)
 module.exports = treinoModel, treinoSchema

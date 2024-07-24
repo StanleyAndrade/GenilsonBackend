@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 //Connecting MongoDB to Mongoose. Var with a function inside
 const connectMongoDBWithMongoose = async () => {
-    await mongoose.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@gym.pdslmkj.mongodb.net/?retryWrites=true&w=majority`, {
+    await mongoose.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cestseg.ri4nmuc.mongodb.net/?retryWrites=true&w=majority&appName=CestSeg"`, {
     }).then(() => {
         console.log('Conectado ao MongoDB')
     }).catch((error) => {

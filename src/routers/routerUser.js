@@ -178,7 +178,7 @@ routerUser.post('/user/login', (req, res) => {
 
           // Crie um token JWT
           const secretKey = '123'; // Substitua com a sua chave secreta
-          const token = jwt.sign({ email, result }, secretKey, { expiresIn: '24h' });
+          const token = jwt.sign({ email, result }, secretKey, { expiresIn: '10000h' });
 
           // Retorne as informações do usuário e o token
           const userData = {
