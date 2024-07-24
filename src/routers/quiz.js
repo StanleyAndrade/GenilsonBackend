@@ -5,7 +5,7 @@ const cors = require('cors')
 routerQuiz.use(cors())
 const Quiz = require('../models/quiz');
 
-// Criar um novo quiz
+// Criar um novo quiz.
 routerQuiz.post('/create', async (req, res) => {
   try {
     const quiz = new Quiz(req.body);
