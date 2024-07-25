@@ -19,6 +19,7 @@ const allowedOrigins = [
     'https://cestsegtrabalho.com.br',
     'https://api.cestsegtrabalho.com.br',
     'https://app.cestsegtrabalho.com.br',
+    'http://localhost:3000'
 ];
 
 const corsOptions = {
@@ -29,7 +30,7 @@ const corsOptions = {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 
