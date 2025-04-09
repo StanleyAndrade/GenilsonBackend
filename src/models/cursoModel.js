@@ -16,6 +16,10 @@ const cursoSchema = new mongoose.Schema({
     linkUrl: {
         type: String,
         required: false
+    },
+    urlvideo: {
+        type: String,
+        required: false
     }
 })
 

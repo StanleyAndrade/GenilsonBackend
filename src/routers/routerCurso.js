@@ -37,9 +37,9 @@ routerCurso.get('/curso/:nameUrl', async (req, res) => {
 });
 
 routerCurso.post('/curso/criar', authenticateToken, async (req, res) => {
-    const { titulo, conteudo, nameUrl, linkUrl } = req.body;
+    const { titulo, conteudo, nameUrl, linkUrl, urlvideo } = req.body;
     try {
-        const novoCurso = new Curso({ titulo, conteudo, nameUrl, linkUrl });
+        const novoCurso = new Curso({ titulo, conteudo, nameUrl, linkUrl, urlvideo });
         await novoCurso.save();
         res.status(200).json(novoCurso);
     } catch (error) {
