@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const dotenv = require('dotenv')
+require('dotenv').config();
 
 // ✅ Token da Meta (RECOMENDADO usar .env)
 const token = process.env.TOKEN_META; // substitua pelo seu token de acesso
@@ -37,6 +37,12 @@ router.post('/whatsapp/webhook', async (req, res) => {
       } else if (text === 'olá') {
         resposta = 'Ola! Seja bem-vindo.';
       }
+
+        console.log('Mensagem recebida:', message?.text?.body);
+        console.log('De:', message?.from);
+        console.log('Texto tratado:', text);
+        console.log('Resposta definida:', resposta);
+
   
       if (resposta) {
         try {
