@@ -56,7 +56,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
                 interactive: {
                   type: "button",
                   body: {
-                    text: `*CESTSEGTRABALHO*\nSeja bem vindo aluno(a). Escolha abaixo uma opção:`
+                    text: `*CESTSEGTRABALHO*\n`
                   },
                   action: {
                     buttons: [
