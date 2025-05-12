@@ -53,15 +53,12 @@ router.post('/whatsapp/webhook', async (req, res) => {
             {
                 messaging_product: "whatsapp",
                 recipient_type: "individual",
-                to: to,
+                to: from,
                 type: "interactive",
                 interactive: {
                   type: "button",
                   body: {
-                    text: `
-                    *CESTSEGTRABALHO*
-                    Seja bem vindo aluno(a). Escolha abaixo uma opção:
-                    `
+                    text: `*CESTSEGTRABALHO*\nSeja bem vindo aluno(a). Escolha abaixo uma opção:`
                   },
                   action: {
                     buttons: [
