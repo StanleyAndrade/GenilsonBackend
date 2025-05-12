@@ -81,27 +81,27 @@ router.post('/whatsapp/webhook', async (req, res) => {
                           title: "NÃO CONSIGO ABRIR LINK: ERRO"
                         }
                       },
-                                            {
-                        type: "reply",
-                        reply: {
-                          id: "UNIQUE_BUTTON_ID_2",
-                          title: "VIM PELO SITE (PARTICULAR OU EMPRESA)"
-                        }
-                      },
-                                            {
-                        type: "reply",
-                        reply: {
-                          id: "UNIQUE_BUTTON_ID_2",
-                          title: "FALAR COM INSTRUTOR OU ADM CEST"
-                        }
-                      },
-                                            {
-                        type: "reply",
-                        reply: {
-                          id: "UNIQUE_BUTTON_ID_2",
-                          title: "CLIQUE SE FOR: Engenheiro, TST, Supervisor, ADM, Líder de Equipe"
-                        }
-                      },
+                      //                       {
+                      //   type: "reply",
+                      //   reply: {
+                      //     id: "UNIQUE_BUTTON_ID_2",
+                      //     title: "VIM PELO SITE (PARTICULAR OU EMPRESA)"
+                      //   }
+                      // },
+                      //                       {
+                      //   type: "reply",
+                      //   reply: {
+                      //     id: "UNIQUE_BUTTON_ID_2",
+                      //     title: "FALAR COM INSTRUTOR OU ADM CEST"
+                      //   }
+                      // },
+                      //                       {
+                      //   type: "reply",
+                      //   reply: {
+                      //     id: "UNIQUE_BUTTON_ID_2",
+                      //     title: "CLIQUE SE FOR: Engenheiro, TST, Supervisor, ADM, Líder de Equipe"
+                      //   }
+                      // },
                     ]
                   }
                 }
