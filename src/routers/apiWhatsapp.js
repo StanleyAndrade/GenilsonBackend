@@ -45,9 +45,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
         console.log('Texto tratado:', text);
         console.log('Resposta definida:', resposta);
 
-  
-      if (resposta) {
-        try {
+                try {
           await axios.post(
             `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
             {
@@ -118,7 +116,6 @@ router.post('/whatsapp/webhook', async (req, res) => {
         } catch (error) {
           console.error('Erro ao responder mensagem:', error.response?.data || error.message);
         }
-      }
     }
   
     res.sendStatus(200); // WhatsApp exige resposta 200 OK
