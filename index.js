@@ -90,6 +90,12 @@ app.use('/', routerURL)
 const routerCurso = require('./src/routers/routerCurso')
 app.use('/', routerCurso)
 
+const routerGabarito = require('./src/routers/routerGabarito')
+app.use('/', routerGabarito)
+
+const apiWhatsapp = require('./src/routers/apiWhatsapp')
+app.use('/', apiWhatsapp)
+
 // const routerQuiz = require('./src/routers/quiz')
 // app.use('/', routerQuiz)
 

@@ -2,6 +2,7 @@
 
 //importing mongoose
 const mongoose = require('mongoose')
+const dotenv = require('dotenv')
 
 //Connecting MongoDB to Mongoose. Var with a function inside
 const connectMongoDBWithMongoose = async () => {
