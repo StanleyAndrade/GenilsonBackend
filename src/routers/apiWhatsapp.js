@@ -25,18 +25,20 @@ router.post('/whatsapp/webhook', async (req, res) => {
     const entry = req.body.entry?.[0];
     const changes = entry?.changes?.[0];
     const message = changes?.value?.messages?.[0];
-  
+    
+    console.log('Body recebido:', JSON.stringify(req.body, null, 2));
+
     if (message && message.type === 'text') {
       const from = message.from; // número do cliente (ex: 5521992002356)
-      const text = message.text.body.toLowerCase(); // mensagem do cliente
+      const text = message.text.body.trim().toLowerCase(); // mensagem do cliente
   
-      let resposta = null;
+      const resposta = ``;
   
-      if (text === 'oi' || text === 'oi.') {
-        resposta = 'Olá! Tudo bem?';
-      } else if (text === 'olá') {
-        resposta = 'Ola! Seja bem-vindo.';
-      }
+      // if (text === 'oi' || text === 'oi.') {
+      //   resposta = 'Olá! Tudo bem?';
+      // } else if (text === 'olá') {
+      //   resposta = 'Ola! Seja bem-vindo.';
+      // }
 
         console.log('Mensagem recebida:', message?.text?.body);
         console.log('De:', message?.from);
@@ -49,10 +51,65 @@ router.post('/whatsapp/webhook', async (req, res) => {
           await axios.post(
             `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
             {
-              messaging_product: 'whatsapp',
-              to: from,
-              type: 'text',
-              text: { body: resposta }
+                messaging_product: "whatsapp",
+                recipient_type: "individual",
+                to: to,
+                type: "interactive",
+                interactive: {
+                  type: "button",
+                  body: {
+                    text: `
+                    *CESTSEGTRABALHO*
+                    Seja bem vindo aluno(a). Escolha abaixo uma opção:
+                    `
+                  },
+                  action: {
+                    buttons: [
+                      {
+                        type: "reply",
+                        reply: {
+                          id: "UNIQUE_BUTTON_ID_1",
+                          title: "RECEBER LINK"
+                        }
+                      },
+                      {
+                        type: "reply",
+                        reply: {
+                          id: "UNIQUE_BUTTON_ID_2",
+                          title: "SENHA DA PROVA"
+                        }
+                      },
+                                            {
+                        type: "reply",
+                        reply: {
+                          id: "UNIQUE_BUTTON_ID_2",
+                          title: "NÃO CONSIGO ABRIR LINK: ERRO"
+                        }
+                      },
+                                            {
+                        type: "reply",
+                        reply: {
+                          id: "UNIQUE_BUTTON_ID_2",
+                          title: "VIM PELO SITE (PARTICULAR OU EMPRESA)"
+                        }
+                      },
+                                            {
+                        type: "reply",
+                        reply: {
+                          id: "UNIQUE_BUTTON_ID_2",
+                          title: "FALAR COM INSTRUTOR OU ADM CEST"
+                        }
+                      },
+                                            {
+                        type: "reply",
+                        reply: {
+                          id: "UNIQUE_BUTTON_ID_2",
+                          title: "CLIQUE SE FOR: Engenheiro, TST, Supervisor, ADM, Líder de Equipe"
+                        }
+                      },
+                    ]
+                  }
+                }
             },
             {
               headers: {
