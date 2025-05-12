@@ -8,7 +8,7 @@ const token = process.env.TOKEN_META; // substitua pelo seu token de acesso
 const phoneNumberId = '613259461877890'; // ID do número de telefone da Meta
 const verifyToken = 'CestApiWhatsapp'
 
-router.get('/whatsapp/webhook', async, (req, res) => {
+router.get('/whatsapp/webhook', (req, res) => {
     const mode = req.query['hub.mode'];
     const challenge = req.query['hub.challenge'];
     const token = req.query['hub.verify_token']
