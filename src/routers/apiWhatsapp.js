@@ -75,17 +75,18 @@ router.post('/whatsapp/webhook', async (req, res) => {
     const text = message.text.body.trim().toLowerCase();
 
     
-  // 🚫 Se o texto for vazio ou null, não responde nada
-  if (!text) {
-    console.log('Mensagem de texto vazia recebida. Ignorando...');
-    return res.sendStatus(200);
-  }
+  // // 🚫 Se o texto for vazio ou null, não responde nada
+  // if (!text) {
+  //   console.log('Mensagem de texto vazia recebida. Ignorando...');
+  //   return res.sendStatus(200);
+  // }
 
     // Respostas prontas
     const senhaProva = `🔐 *Aqui está a senha da prova:*\n\nCest5p`;
     const erroAbrirLink = `⚠️ *Teve erro ao abrir o link do Treinamento?*\n\nClique aqui e fale com o suporte: \n👉 https://wa.me/5521973561012?text=Deu%20erro%20ao%20abrir%20o%20link%20do%20Treinamento`;
     const vimPeloSite = `🌐 *Veio pelo site?* \n\nClique abaixo para falar com o atendente: \n👉 https://wa.me/5521973561012?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20preciso%20de%20ajuda.`;
     const parceiroEducacional = `👨‍🏫 *Precisa tratar um assunto pessoal?*\n\nClique no link abaixo para falar com o responsável:\n👉 https://wa.me/5521973561012?text=Assunto%20pessoal.`;
+    
     const respostaInicial = `👋 *Seja bem-vindo à CestSegTrabalho!*\n\nEscolha uma das opções abaixo para que possamos te ajudar da melhor forma:\n\n
     1️⃣ *Digite 1* Para receber o *link do Treinamento*\n
     2️⃣ *Digite 2* Para receber a *senha da Prova*\n
@@ -93,6 +94,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
     4️⃣ *Digite 4* Se você *veio pelo site*\n
     5️⃣ *Digite 5* Para *falar com um instrutor ou ADM da Cest*\n
     6️⃣ *Digite 6* Se você for *Engenheiro, TST, Supervisor, ADM ou Líder de Equipe* — entre em contato o quanto antes (parceiro educacional)\n`;
+    
     const links = `📚 *Treinamentos Disponíveis:*\n\n
     Escolha somente o treinamento que lhe foi autorizado. Após Estudo, receberá prova conforme intervalo de cada treinamento. Treinamento escolhido errado será desconsiderado.*\n\n
     1️⃣ *Primeiros Socorros*\n
@@ -137,8 +139,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
       )
     } else if (text === 'e2') {
       resposta = E2
-    }
-    else {
+    } else {
       resposta = respostaInicial;
     }
 
