@@ -20,107 +20,71 @@ router.get('/whatsapp/webhook', (req, res) => {
     }
 });
 
-// ✅ Receber mensagens e responder a gatilhos
+// ✅ Rota POST para receber mensagens do WhatsApp e responder automaticamente
 router.post('/whatsapp/webhook', async (req, res) => {
-    const entry = req.body.entry?.[0];
-    const changes = entry?.changes?.[0];
-    const message = changes?.value?.messages?.[0];
-    
-    console.log('Body recebido:', JSON.stringify(req.body, null, 2));
+  // Extrai os dados principais da estrutura do body enviado pelo Webhook do WhatsApp
+  const entry = req.body.entry?.[0];
+  const changes = entry?.changes?.[0];
+  const message = changes?.value?.messages?.[0];
 
-    if (message && message.type === 'text') {
-      const from = message.from; // número do cliente (ex: 5521992002356)
-      const text = message.text.body.trim().toLowerCase(); // mensagem do cliente
-  
-      const resposta = ``;
-  
-      // if (text === 'oi' || text === 'oi.') {
-      //   resposta = 'Olá! Tudo bem?';
-      // } else if (text === 'olá') {
-      //   resposta = 'Ola! Seja bem-vindo.';
-      // }
+  // Apenas para depuração: imprime no console o corpo completo da requisição
+  console.log('Body recebido:', JSON.stringify(req.body, null, 2));
 
-        console.log('Mensagem recebida:', message?.text?.body);
-        console.log('De:', message?.from);
-        console.log('Texto tratado:', text);
-        console.log('Resposta definida:', resposta);
+  // Verifica se a mensagem existe e é do tipo texto
+  if (message && message.type === 'text') {
+    const from = message.from; // Número do usuário que enviou a mensagem
+    const text = message.text.body.trim().toLowerCase(); // Texto da mensagem (tratado em minúsculo e sem espaços)
 
-                try {
-          await axios.post(
-            `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
-            {
-                messaging_product: "whatsapp",
-                recipient_type: "individual",
-                to: from,
-                type: "interactive",
-                interactive: {
-                  type: "button",
-                  body: {
-                    text: `*CESTSEGTRABALHO*\n`
-                  },
-                  action: {
-                    buttons: [
-                      {
-                        type: "reply",
-                        reply: {
-                          id: "UNIQUE_BUTTON_ID_1",
-                          title: "RECEBER LINK"
-                        }
-                      },
-                      {
-                        type: "reply",
-                        reply: {
-                          id: "UNIQUE_BUTTON_ID_2",
-                          title: "SENHA DA PROVA"
-                        }
-                      },
-                                            {
-                        type: "reply",
-                        reply: {
-                          id: "UNIQUE_BUTTON_ID_3",
-                          title: "ERRO AO ABRIR LINK"
-                        }
-                      },
-                      //                       {
-                      //   type: "reply",
-                      //   reply: {
-                      //     id: "UNIQUE_BUTTON_ID_2",
-                      //     title: "VIM PELO SITE (PARTICULAR OU EMPRESA)"
-                      //   }
-                      // },
-                      //                       {
-                      //   type: "reply",
-                      //   reply: {
-                      //     id: "UNIQUE_BUTTON_ID_2",
-                      //     title: "FALAR COM INSTRUTOR OU ADM CEST"
-                      //   }
-                      // },
-                      //                       {
-                      //   type: "reply",
-                      //   reply: {
-                      //     id: "UNIQUE_BUTTON_ID_2",
-                      //     title: "CLIQUE SE FOR: Engenheiro, TST, Supervisor, ADM, Líder de Equipe"
-                      //   }
-                      // },
-                    ]
-                  }
-                }
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              }
-            }
-          );
-        } catch (error) {
-          console.error('Erro ao responder mensagem:', error.response?.data || error.message);
-        }
+    // Mensagens prontas
+    const respostaInicial = `👋 Seja bem-vindo à CestSegTrabalho! Por favor, escolha uma das opções abaixo:\n\n1️⃣ Treinamento\n2️⃣ Provas`;
+    const respostaTreinamento = `📚 Você escolheu *Treinamento*. Em breve enviaremos os conteúdos.`;
+    const respostaProva = `📝 Você escolheu *Prova*. Vamos agendar sua prova.`;
+
+    // Variável que será enviada como resposta
+    let resposta;
+
+    // Define a resposta com base no texto recebido
+    if (text === '1') {
+      resposta = respostaTreinamento;
+    } else if (text === '2') {
+      resposta = respostaProva;
+    } else {
+      // Se a mensagem for qualquer outro texto (inclusive na primeira vez), envia o menu inicial
+      resposta = respostaInicial;
     }
-  
-    res.sendStatus(200); // WhatsApp exige resposta 200 OK
-});
 
+    // Logs úteis para depuração
+    console.log('Mensagem recebida:', message.text.body);
+    console.log('De:', from);
+    console.log('Texto tratado:', text);
+    console.log('Resposta definida:', resposta);
+
+    // Envia a mensagem de resposta usando a API do WhatsApp Business
+    try {
+      await axios.post(
+        `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
+        {
+          messaging_product: 'whatsapp',
+          to: from,
+          type: 'text',
+          text: { body: resposta }
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+    } catch (error) {
+      // Exibe erro em caso de falha ao enviar a resposta
+      console.error('Erro ao responder mensagem:', error.response?.data || error.message);
+    }
+  }
+
+  // Sempre responde 200 OK para o WhatsApp saber que a requisição foi recebida com sucesso
+  res.sendStatus(200);
+});
 
 // // 🔹 Enviar mensagem de texto simples via WhatsApp
 // router.post('/enviar-mensagem', async (req, res) => {
