@@ -31,40 +31,41 @@ router.post('/whatsapp/webhook', async (req, res) => {
   console.log('Body recebido:', JSON.stringify(req.body, null, 2));
 
   // 👉 1. Trata mensagens de BOTÃO (button reply)
-  if (message && message.type === 'button') {
-    const payload = message.button.payload;
-    let resposta = '';
+  if (message?.type === 'interactive' && message.interactive.type === 'button_reply') {
+    const payload = message.interactive.button_reply.id;
+    let respostaBotao = '';
 
     if (payload === 'link_nao_abre') {
-      resposta = `🔗 Parece que o link não está funcionando. Clique aqui para suporte: https://wa.me/5521973561012?text=Link%20com%20problema`;
+      respostaBotao = `🔗 Parece que o link não está funcionando. Clique aqui para suporte: https://wa.me/5521973561012?text=Link%20com%20problema`;
     } else if (payload === 'erro_geral') {
-      resposta = `❌ Descreva melhor o erro para que possamos te ajudar.`;
+      respostaBotao = `❌ Descreva melhor o erro para que possamos te ajudar.`;
     } else if (payload === 'orcamento_docsst') {
-      resposta = `📄 Encaminharemos seu pedido de orçamento/DOCSST para o setor responsável.`;
+      respostaBotao = `📄 Encaminharemos seu pedido de orçamento/DOCSST para o setor responsável.`;
     }
 
     // Envia a resposta baseada no botão clicado
-    try {
-      await axios.post(
-        `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
-        {
-          messaging_product: 'whatsapp',
-          to: from,
-          type: 'text',
-          text: { body: resposta }
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
+    if (respostaBotao && from) {
+      try {
+        await axios.post(
+          `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
+          {
+            messaging_product: 'whatsapp',
+            to: from,
+            type: 'text',
+            text: { body: respostaBotao }
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
           }
-        }
-      );
-    } catch (error) {
-      console.error('Erro ao responder botão:', error.response?.data || error.message);
+        );
+      } catch (error) {
+        console.error('Erro ao enviar resposta do botão:', error.response?.data || error.message);
+      }
     }
-
-    return res.sendStatus(200); // Finaliza aqui após tratar botão
+    return res.sendStatus(200); // Finaliza aqui o ciclo do botão
   }
 
   // 👉 2. Trata mensagens de TEXTO
@@ -76,7 +77,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
     const senhaProva = `🔐 *Aqui está a senha da prova:*\n\nCest5p`;
     const erroAbrirLink = `⚠️ *Teve erro ao abrir o link do Treinamento?*\n\nClique aqui e fale com o suporte: \n👉 https://wa.me/5521973561012?text=Deu%20erro%20ao%20abrir%20o%20link%20do%20Treinamento`;
     const vimPeloSite = `🌐 *Veio pelo site?* \n\nClique abaixo para falar com o atendente: \n👉 https://wa.me/5521973561012?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20preciso%20de%20ajuda.`;
-    const parceiroEducacional = `Precisa falar um assunto pessoal? Clique aqui para ser redirecionado para o responsável:\n https://wa.me/5521973561012?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20preciso%20de%20ajuda.`;
+    const parceiroEducacional = `👨‍🏫 *Precisa tratar um assunto pessoal?*\n\nClique no link abaixo para falar com o responsável:\n👉 https://wa.me/5521973561012?text=Assunto%20pessoal.`;
     const respostaInicial = `👋 *Seja bem-vindo à CestSegTrabalho!*\n\nEscolha uma das opções abaixo para que possamos te ajudar da melhor forma:\n\n
 1️⃣ *Digite 1* Para receber o *link do Treinamento*\n
 2️⃣ *Digite 2* Para receber a *senha da Prova*\n
