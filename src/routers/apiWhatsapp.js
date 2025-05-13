@@ -75,11 +75,11 @@ router.post('/whatsapp/webhook', async (req, res) => {
     const text = message.text.body.trim().toLowerCase();
 
     
-  // // 🚫 Se o texto for vazio ou null, não responde nada
-  // if (!text) {
-  //   console.log('Mensagem de texto vazia recebida. Ignorando...');
-  //   return res.sendStatus(200);
-  // }
+  // 🚫 Se o texto for vazio ou null, não responde nada
+  if (!text) {
+    console.log('Mensagem de texto vazia recebida. Ignorando...');
+    return res.sendStatus(200);
+  }
 
     // Respostas prontas
     const senhaProva = `🔐 *Aqui está a senha da prova:*\n\nCest5p`;
@@ -195,9 +195,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
         console.error('Erro ao enviar botões:', error.response?.data || error.message);
       }
       return res.sendStatus(200);
-    } else {
-      resposta = respostaInicial;
-    }
+    } 
 
     // Envia a resposta de texto normal
     try {
