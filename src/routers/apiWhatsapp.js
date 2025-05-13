@@ -95,12 +95,10 @@ router.post('/whatsapp/webhook', async (req, res) => {
     5️⃣ *Digite 5* Para *falar com um instrutor ou ADM da Cest*\n
     6️⃣ *Digite 6* Se você for *Engenheiro, TST, Supervisor, ADM ou Líder de Equipe* — entre em contato o quanto antes (parceiro educacional)\n`;
     
-    const links = `📚 *Treinamentos Disponíveis:*\n\n
-    Escolha somente o treinamento que lhe foi autorizado. Após Estudo, receberá prova conforme intervalo de cada treinamento. Treinamento escolhido errado será desconsiderado.*\n\n
-    1️⃣ *Primeiros Socorros*\n
-    👉 https://www.cestsegtrabalho.com.br/src/assets/page/capamodulo/primeiros-socorros.html\n\n
-    2️⃣ *Lei de Lucas*\n
-    👉 https://www.cestsegtrabalho.com.br/src/assets/page/capamodulo/primeiros-socorros.html`;
+    const links = `📚 *Treinamentos Disponíveis:*\n
+    Escolha somente o treinamento que lhe foi autorizado. Após Estudo, receberá prova conforme intervalo de cada treinamento. Treinamento escolhido errado será desconsiderado.*\n
+    1️⃣ *Digite 1 para Primeiros Socorros*\n
+    2️⃣ *Digite 2 para Lei de Lucas*\n`;
 
     // Treinamentos
     const E1 = '*Primeiros Socorros*\n 🔗 Link do Treinamento abaixo: \n\n 👉 https://www.cestsegtrabalho.com.br/src/assets/page/capamodulo/primeiros-socorros.html';
