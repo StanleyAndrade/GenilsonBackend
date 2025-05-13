@@ -36,11 +36,11 @@ router.post('/whatsapp/webhook', async (req, res) => {
     let respostaBotao = '';
 
     if (payload === 'link_nao_abre') {
-      respostaBotao = `🔗 Parece que o link não está funcionando. Clique aqui para suporte: \n👉 https://wa.me/5521973561012?text=Link%20com%20problema`;
+      respostaBotao = `🔗 *Parece que o link não está funcionando. Clique aqui para suporte:* \n\n👉 https://wa.me/5521973561012?text=Link%20com%20problema`;
     } else if (payload === 'erro_geral') {
-      respostaBotao = `❌ Para descrever melhor o erro, clique para falar com o suporte: \n👉 https://wa.me/5521973561012?text=Quero%20descrever%20o%20erro`;
+      respostaBotao = `❌ *Para descrever melhor o erro, clique para falar com o suporte:* \n\n👉 https://wa.me/5521973561012?text=Quero%20descrever%20o%20erro`;
     } else if (payload === 'orcamento_docsst') {
-      respostaBotao = `📄 Clique aqui para ser encaminhado para o responsável \n👉 https://wa.me/5521973561012?text=Sou%20particular%20ou%20empresa%2C%20e%20quero%20or%C3%A7amento%20de%20treinamento%2C%20ou%20DOC%20SST%3A%20PGR%2FPCMSO%20relat%C3%B3rios.`;
+      respostaBotao = `📄 *Clique aqui para ser encaminhado para o responsável:* \n\n👉 https://wa.me/5521973561012?text=Sou%20particular%20ou%20empresa%2C%20e%20quero%20or%C3%A7amento%20de%20treinamento%2C%20ou%20DOC%20SST%3A%20PGR%2FPCMSO%20relat%C3%B3rios.`;
     }
 
     // Envia a resposta baseada no botão clicado
