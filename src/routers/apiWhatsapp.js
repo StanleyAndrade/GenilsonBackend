@@ -219,7 +219,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
     }
     return res.sendStatus(200);
   }
-  // Se não for tipo tratado, responde 200 mesmo assim
+  // Se não for tipo tratado, responde 200 mesmo assim. 
   res.sendStatus(200);
 });
 module.exports = router;
