@@ -22,55 +22,71 @@ router.get('/whatsapp/webhook', (req, res) => {
 
 // ✅ Rota POST para receber mensagens do WhatsApp e responder automaticamente
 router.post('/whatsapp/webhook', async (req, res) => {
-  // Extrai os dados principais da estrutura do body enviado pelo Webhook do WhatsApp
   const entry = req.body.entry?.[0];
   const changes = entry?.changes?.[0];
   const message = changes?.value?.messages?.[0];
+  const from = message?.from;
 
-  // Apenas para depuração: imprime no console o corpo completo da requisição
+  // Logs para debug
   console.log('Body recebido:', JSON.stringify(req.body, null, 2));
 
-  // Verifica se a mensagem existe e é do tipo texto
-  if (message && message.type === 'text') {
-    const from = message.from; // Número do usuário que enviou a mensagem
-    const text = message.text.body.trim().toLowerCase(); // Texto da mensagem (tratado em minúsculo e sem espaços)
-
-    if (message && message.type === 'button') {
-    const from = message.from;
+  // 👉 1. Trata mensagens de BOTÃO (button reply)
+  if (message && message.type === 'button') {
     const payload = message.button.payload;
-
-    let respostas = '';
+    let resposta = '';
 
     if (payload === 'link_nao_abre') {
-      respostas = `🔗 Parece que o link não está funcionando. Clique aqui para suporte: https://wa.me/5521973561012?text=Link%20com%20problema`;
+      resposta = `🔗 Parece que o link não está funcionando. Clique aqui para suporte: https://wa.me/5521973561012?text=Link%20com%20problema`;
     } else if (payload === 'erro_geral') {
-      respostas = `❌ Descreva melhor o erro para que possamos te ajudar.`;
+      resposta = `❌ Descreva melhor o erro para que possamos te ajudar.`;
     } else if (payload === 'orcamento_docsst') {
-      respostas = `📄 Encaminharemos seu pedido de orçamento/DOCSST para o setor responsável.`;
+      resposta = `📄 Encaminharemos seu pedido de orçamento/DOCSST para o setor responsável.`;
     }
 
-    // Mensagens prontas
+    // Envia a resposta baseada no botão clicado
+    try {
+      await axios.post(
+        `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
+        {
+          messaging_product: 'whatsapp',
+          to: from,
+          type: 'text',
+          text: { body: resposta }
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+    } catch (error) {
+      console.error('Erro ao responder botão:', error.response?.data || error.message);
+    }
+
+    return res.sendStatus(200); // Finaliza aqui após tratar botão
+  }
+
+  // 👉 2. Trata mensagens de TEXTO
+  if (message && message.type === 'text') {
+    const text = message.text.body.trim().toLowerCase();
+
+    // Respostas prontas
     const links = ``;
     const senhaProva = `🔐 *Aqui está a senha da prova:*\n\nCest5p`;
     const erroAbrirLink = `⚠️ *Teve erro ao abrir o link do Treinamento?*\n\nClique aqui e fale com o suporte: \n👉 https://wa.me/5521973561012?text=Deu%20erro%20ao%20abrir%20o%20link%20do%20Treinamento`;
     const vimPeloSite = `🌐 *Veio pelo site?* \n\nClique abaixo para falar com o atendente: \n👉 https://wa.me/5521973561012?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20preciso%20de%20ajuda.`;
-    // const falarComInstrutor = ``; // quero que exiba 3 botões: 'Link não abre', 'Erro', Orçamento/DOCSST/PGR
     const parceiroEducacional = `Precisa falar um assunto pessoal? Clique aqui para ser redirecionado para o responsável:\n https://wa.me/5521973561012?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20preciso%20de%20ajuda.`;
     const respostaInicial = `👋 *Seja bem-vindo à CestSegTrabalho!*\n\nEscolha uma das opções abaixo para que possamos te ajudar da melhor forma:\n\n
-    1️⃣ *Digite 1* Para receber o *link do Treinamento*\n
-    2️⃣ *Digite 2* Para receber a *senha da Prova*\n
-    3️⃣ *Digite 3* Se está tendo *erro ao abrir o link*\n
-    4️⃣ *Digite 4* Se você *veio pelo site*\n
-    5️⃣ *Digite 5* Para *falar com um instrutor ou ADM da Cest*\n
-    6️⃣ *Digite 6* Se você for *Engenheiro, TST, Supervisor, ADM ou Líder de Equipe* — entre em contato o quanto antes (parceiro educacional)\n
-    `;
-    const respostaTreinamento = `📚 Você escolheu *Treinamento*. Em breve enviaremos os conteúdos.`;
-    const respostaProva = `📝 Você escolheu *Prova*. Vamos agendar sua prova.`;
+1️⃣ *Digite 1* Para receber o *link do Treinamento*\n
+2️⃣ *Digite 2* Para receber a *senha da Prova*\n
+3️⃣ *Digite 3* Se está tendo *erro ao abrir o link*\n
+4️⃣ *Digite 4* Se você *veio pelo site*\n
+5️⃣ *Digite 5* Para *falar com um instrutor ou ADM da Cest*\n
+6️⃣ *Digite 6* Se você for *Engenheiro, TST, Supervisor, ADM ou Líder de Equipe* — entre em contato o quanto antes (parceiro educacional)\n`;
 
-    // Variável que será enviada como resposta
     let resposta;
 
-    // Define a resposta com base no texto recebido
     if (text === '1') {
       resposta = links;
     } else if (text === '2') {
@@ -79,14 +95,13 @@ router.post('/whatsapp/webhook', async (req, res) => {
       resposta = erroAbrirLink;
     } else if (text === '4') {
       resposta = vimPeloSite;
-    }  else if (text === '6') {
+    } else if (text === '6') {
       resposta = parceiroEducacional;
     } else {
-      // Se a mensagem for qualquer outro texto (inclusive na primeira vez), envia o menu inicial
       resposta = respostaInicial;
     }
 
-    // Se o usuário digitar "falar", envia 3 botões
+    // 👉 Se o usuário digitar "5", envia os botões interativos
     if (text === '5') {
       try {
         await axios.post(
@@ -138,17 +153,10 @@ router.post('/whatsapp/webhook', async (req, res) => {
         console.error('Erro ao enviar botões:', error.response?.data || error.message);
       }
 
-      return res.sendStatus(200); // Finaliza o ciclo aqui após enviar os botões
+      return res.sendStatus(200);
     }
 
-
-    // Logs úteis para depuração
-    console.log('Mensagem recebida:', message.text.body);
-    console.log('De:', from);
-    console.log('Texto tratado:', text);
-    console.log('Resposta definida:', resposta);
-
-    // Envia a mensagem de resposta usando a API do WhatsApp Business
+    // Envia a resposta de texto normal
     try {
       await axios.post(
         `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
@@ -166,14 +174,16 @@ router.post('/whatsapp/webhook', async (req, res) => {
         }
       );
     } catch (error) {
-      // Exibe erro em caso de falha ao enviar a resposta
       console.error('Erro ao responder mensagem:', error.response?.data || error.message);
     }
+
+    return res.sendStatus(200);
   }
 
-  // Sempre responde 200 OK para o WhatsApp saber que a requisição foi recebida com sucesso
+  // Se não for tipo tratado, responde 200 mesmo assim
   res.sendStatus(200);
 });
+
 
 // // 🔹 Enviar mensagem de texto simples via WhatsApp
 // router.post('/enviar-mensagem', async (req, res) => {
