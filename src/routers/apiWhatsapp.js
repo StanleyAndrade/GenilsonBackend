@@ -122,7 +122,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
     } else if (text === '6') {
       resposta = parceiroEducacional;
     } else if (text === 'e1') {
-      resposta = E1;
+      // resposta = E1;
       // Envia E1 imediatamente
     await sendWhatsappMessage({
       to: from,
