@@ -3,8 +3,8 @@ const router = express.Router();
 const axios = require('axios');
 require('dotenv').config();
 
-const senhaEstudo = 'Cest5e'
-const senhaProva = 'Cest5p'
+const EstudoSenha = 'Cest5e'
+const ProvaSenha = 'Cest5p'
 
 // ✅ Token da Meta (RECOMENDADO usar .env)
 const token = process.env.TOKEN_META; // substitua pelo seu token de acesso
@@ -102,21 +102,21 @@ router.post('/whatsapp/webhook', async (req, res) => {
     2️⃣ *Digite e2 para Lei de Lucas*\n`;
 
     // Treinamentos
-    const E1 = `*Primeiros Socorros*\n 
-    _Após estudar o Treinamento, faça a Prova. _\n
-    🔗 *Link do Treinamento abaixo:* \n 
+    const E1 = `*Primeiros Socorros*
+    Após estudar o Treinamento, faça a Prova\n
+    🔗 *Link do Treinamento abaixo:*
     👉 https://www.cestsegtrabalho.com.br/src/assets/page/capamodulo/primeiros-socorros.html\n\n
-    🔗 *Link da Prova:* \n
-    🔐 *Senha da prova:* ${senhaProva}
-    👉 https://cestsegtrabalho.com.br/src/assets/acessos/primeiros-socorros.html`;
+    🔗 *Link da Prova:*
+    👉 https://cestsegtrabalho.com.br/src/assets/acessos/primeiros-socorros.html\n
+    🔐 *Senha da prova:* ${ProvaSenha}`;
 
-    const E2 = `*Lei de Lucas*\n 
-    _Após estudar o Treinamento, faça a Prova. _\n
-    🔗 Link do Treinamento abaixo: \n
+    const E2 = `*Lei de Lucas*
+    Após estudar o Treinamento, faça a Prova\n
+    🔗 Link do Treinamento abaixo:
     👉 https://www.cestsegtrabalho.com.br/src/assets/page/capamodulo/primeiros-socorros.html\n\n
-    🔗 *Link da Prova:* \n
-    🔐 *Senha da prova:* ${senhaProva}
-    👉 https://cestsegtrabalho.com.br/src/assets/acessos/leidelucas.html
+    🔗 *Link da Prova:*
+    👉 https://cestsegtrabalho.com.br/src/assets/acessos/leidelucas.html\n
+    🔐 *Senha da prova:* ${ProvaSenha}
     `;
 
     // Provas
