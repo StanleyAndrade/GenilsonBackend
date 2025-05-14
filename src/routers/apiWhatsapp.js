@@ -75,6 +75,11 @@ router.post('/whatsapp/webhook', async (req, res) => {
   if (message && message.type === 'text') {
     const text = message.text.body.trim().toLowerCase();
 
+  // 🚫 Ignora mensagens enviadas por você (o próprio bot)
+  if (!message.from || message.id?.startsWith('wamid.') === false) {
+    console.log('Mensagem enviada pelo próprio bot. Ignorando...');
+    return res.sendStatus(200);
+  }
     
   // 🚫 Se o texto for vazio ou null, não responde nada
   if (!text) {
