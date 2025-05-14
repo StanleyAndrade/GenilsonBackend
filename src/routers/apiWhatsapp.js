@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 require('dotenv').config();
-const whatsappQueue = require('../routers/queues/whatsappQueue');
-const sendWhatsappMessage = require('../utils/sendWhatsappMessage');
 
 
 
@@ -122,29 +120,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
     } else if (text === '6') {
       resposta = parceiroEducacional;
     } else if (text === 'e1') {
-
-      // Envia E1 imediatamente
-    await sendWhatsappMessage({
-      to: from,
-      message: E1,
-      token,
-      phoneNumberId
-    });
-
-    // Agenda P1 com 1 minuto de delay
-    await whatsappQueue.add( 'enviarP1',
-      {
-        to: from,
-        message: P1,
-        token,
-        phoneNumberId
-      },
-      {
-        delay: 60 * 1000,
-        attempts: 3
-      }
-      )
-
+      resposta = E1
     } else if (text === 'e2') {
       resposta = E2
     } else {
