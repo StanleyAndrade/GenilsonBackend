@@ -97,8 +97,8 @@ router.post('/whatsapp/webhook', async (req, res) => {
     
     const links = `📚 *Treinamentos Disponíveis:*\n
     Escolha somente o treinamento que lhe foi autorizado. Após Estudo, receberá prova conforme intervalo de cada treinamento. Treinamento escolhido errado será desconsiderado.*\n
-    1️⃣ *Digite 1 para Primeiros Socorros*\n
-    2️⃣ *Digite 2 para Lei de Lucas*\n`;
+    1️⃣ *Digite e1 para Primeiros Socorros*\n
+    2️⃣ *Digite e2 para Lei de Lucas*\n`;
 
     // Treinamentos
     const E1 = '*Primeiros Socorros*\n 🔗 Link do Treinamento abaixo: \n\n 👉 https://www.cestsegtrabalho.com.br/src/assets/page/capamodulo/primeiros-socorros.html';
@@ -121,20 +121,20 @@ router.post('/whatsapp/webhook', async (req, res) => {
       resposta = parceiroEducacional;
     } else if (text === 'e1') {
       resposta = E1;
-      await whatsappQueue.add(
-        {
-          to: from,
-          message: P1,
-          token,
-          phoneNumberId
-        },
-        {
-          // delay: 2 * 60 * 60 * 1000, // 2 horas em milissegundos
-          delay: 60 * 1000, // 1 minuto
-          attempts: 3 // Tenta até 3 vezes se der erro
+      // await whatsappQueue.add(
+      //   {
+      //     to: from,
+      //     message: P1,
+      //     token,
+      //     phoneNumberId
+      //   },
+      //   {
+      //     // delay: 2 * 60 * 60 * 1000, // 2 horas em milissegundos
+      //     delay: 60 * 1000, // 1 minuto
+      //     attempts: 3 // Tenta até 3 vezes se der erro
 
-        }
-      )
+      //   }
+      // )
     } else if (text === 'e2') {
       resposta = E2
     } else {
