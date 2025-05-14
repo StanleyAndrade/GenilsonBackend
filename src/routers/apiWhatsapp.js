@@ -73,7 +73,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
   }
 
   // 👉 2. Trata mensagens de TEXTO
-  if (message && message.type === 'text') {
+  if (!value.messages || !value.messages[0]?.text) {
     const text = message.text.body.trim().toLowerCase();
 
     
@@ -122,7 +122,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
     } else if (text === '6') {
       resposta = parceiroEducacional;
     } else if (text === 'e1') {
-      // resposta = E1;
+
       // Envia E1 imediatamente
     await sendWhatsappMessage({
       to: from,
@@ -132,7 +132,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
     });
 
     // Agenda P1 com 1 minuto de delay
-    await whatsappQueue.add(
+    await whatsappQueue.add( 'enviarP1',
       {
         to: from,
         message: P1,
@@ -144,6 +144,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
         attempts: 3
       }
       )
+
     } else if (text === 'e2') {
       resposta = E2
     } else {

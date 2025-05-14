@@ -1,5 +1,6 @@
 const Queue = require('bull');
 const axios = require('axios');
+const sendWhatsappMessage = require('../../utils/sendWhatsappMessage');
 
 const redisOptions = {
   redis: {
@@ -12,8 +13,9 @@ const redisOptions = {
 const whatsappQueue = new Queue('whatsapp-messages', redisOptions);
 
 // Processador da fila
-whatsappQueue.process(async (job) => {
+whatsappQueue.process('enviarP1', async (job) => {
   const { to, message, token, phoneNumberId } = job.data;
+  await sendWhatsappMessage({ to, message, token, phoneNumberId });
 
   try {
     await axios.post(
