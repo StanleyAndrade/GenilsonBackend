@@ -97,7 +97,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
 6️⃣ *Digite 6* Se você for *Engenheiro, TST, Supervisor, ADM ou Líder de Equipe* — entre em contato o quanto antes (parceiro educacional)\n`;
 
 const links = `📚 *Treinamentos Disponíveis:*\n
-Escolha somente o treinamento que lhe foi autorizado. Após Estudo, receberá prova conforme intervalo de cada treinamento. Treinamento escolhido errado será desconsiderado.*\n
+Escolha somente o treinamento que lhe foi autorizado. Após Estudo, receberá prova conforme intervalo de cada treinamento. Treinamento escolhido errado será desconsiderado.\n
 1️⃣ *Digite e1* para Primeiros Socorros\n
 2️⃣ *Digite e2* para Lei de Lucas\n`;
 
