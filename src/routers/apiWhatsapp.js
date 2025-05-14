@@ -3,6 +3,8 @@ const router = express.Router();
 const axios = require('axios');
 require('dotenv').config();
 const whatsappQueue = require('../routers/queues/whatsappQueue');
+const sendWhatsappMessage = require('../utils/sendWhatsappMessage');
+
 
 
 // ✅ Token da Meta (RECOMENDADO usar .env)
