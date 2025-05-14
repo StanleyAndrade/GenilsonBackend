@@ -72,7 +72,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
   }
 
   // 👉 2. Trata mensagens de TEXTO
-  if (!value.messages || !value.messages[0]?.text) {
+  if (message && message.type === 'text') {
     const text = message.text.body.trim().toLowerCase();
 
     
