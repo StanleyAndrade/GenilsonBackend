@@ -121,20 +121,27 @@ router.post('/whatsapp/webhook', async (req, res) => {
       resposta = parceiroEducacional;
     } else if (text === 'e1') {
       resposta = E1;
-      // await whatsappQueue.add(
-      //   {
-      //     to: from,
-      //     message: P1,
-      //     token,
-      //     phoneNumberId
-      //   },
-      //   {
-      //     // delay: 2 * 60 * 60 * 1000, // 2 horas em milissegundos
-      //     delay: 60 * 1000, // 1 minuto
-      //     attempts: 3 // Tenta até 3 vezes se der erro
+      // Envia E1 imediatamente
+    await sendWhatsappMessage({
+      to: from,
+      message: E1,
+      token,
+      phoneNumberId
+    });
 
-      //   }
-      // )
+    // Agenda P1 com 1 minuto de delay
+    await whatsappQueue.add(
+      {
+        to: from,
+        message: P1,
+        token,
+        phoneNumberId
+      },
+      {
+        delay: 60 * 1000,
+        attempts: 3
+      }
+      )
     } else if (text === 'e2') {
       resposta = E2
     } else {
