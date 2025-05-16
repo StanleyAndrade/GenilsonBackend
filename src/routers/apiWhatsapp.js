@@ -28,6 +28,7 @@ router.post('/whatsapp/webhook', async (req, res) => {
   const entry = req.body.entry?.[0];
   const changes = entry?.changes?.[0];
   const message = changes?.value?.messages?.[0];
+  const value = changes?.value;
   const from = message?.from;
 
   // Logs para debug
@@ -75,17 +76,24 @@ router.post('/whatsapp/webhook', async (req, res) => {
   if (message && message.type === 'text') {
     const text = message.text.body.trim().toLowerCase();
 
-  // 🚫 Ignora mensagens enviadas por você (o próprio bot)
-  if (!message.from || message.id?.startsWith('wamid.') === false) {
-    console.log('Mensagem enviada pelo próprio bot. Ignorando...');
-    return res.sendStatus(200);
-  }
-    
-  // 🚫 Se o texto for vazio ou null, não responde nada
-  if (!text) {
-    console.log('Mensagem de texto vazia recebida. Ignorando...');
-    return res.sendStatus(200);
-  }
+    // 🚫 Ignora mensagens inválidas ou enviadas pelo próprio bot
+    if (
+      !message.from || 
+      message.id?.startsWith('wamid.') === false || 
+      !message.type || 
+      !from || 
+      message.context || 
+      value?.statuses || 
+      !text
+    ) {
+      console.log('Mensagem ignorada (bot, contexto, status ou texto inválido).');
+      return res.sendStatus(200);
+    }
+  // // 🚫 Se o texto for vazio ou null, não responde nada
+  // if (!text) {
+  //   console.log('Mensagem de texto vazia recebida. Ignorando...');
+  //   return res.sendStatus(200);
+  // }
 
     // Respostas prontas
     const senhaProva = `🔐 *Aqui está a senha da prova:*\n\nCest5p`;
