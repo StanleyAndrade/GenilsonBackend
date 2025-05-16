@@ -3,9 +3,6 @@ const router = express.Router();
 const axios = require('axios');
 require('dotenv').config();
 
-const EstudoSenha = 'Cest5e'
-const ProvaSenha = 'Cest5p'
-
 // ✅ Token da Meta (RECOMENDADO usar .env)
 const token = process.env.TOKEN_META; // substitua pelo seu token de acesso
 const phoneNumberId = '613259461877890'; // ID do número de telefone da Meta
@@ -95,20 +92,21 @@ router.post('/whatsapp/webhook', async (req, res) => {
   //   return res.sendStatus(200);
   // }
 
-    // Respostas prontas
-    const senhaProva = `🔐 *Aqui está a senha da prova:*\n\nCest5p`;
-    const erroAbrirLink = `⚠️ *Teve erro ao abrir o link do Treinamento?*\n\nClique aqui e fale com o suporte:\n👉 https://wa.me/5521973561012?text=Deu%20erro%20ao%20abrir%20o%20link%20do%20Treinamento`;
-    const vimPeloSite = `🌐 *Veio pelo site?* \n\nClique abaixo para falar com o atendente:\n👉 https://wa.me/5521973561012?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20preciso%20de%20ajuda.`;
-    const parceiroEducacional = `👨‍🏫 *Precisa tratar um assunto pessoal?*\n\nClique no link abaixo para falar com o responsável:\n👉 https://wa.me/5521973561012?text=Assunto%20pessoal.`;
-    
+    // 2
+    const erroAbrirLink = `⚠️ *Teve erro ao abrir o link do Treinamento?*\n\nClique aqui e fale com o instrutor:\n👉 https://wa.me/5521973561012?text=Deu%20erro%20ao%20abrir%20o%20link%20do%20Treinamento`;
+    // 3
+    const vimPeloSite = `🌐 *Veio pelo site?* \n\nClique aqui para ser encaminhado para o atendente:\n👉 https://wa.me/5521973561012?text=Ol%C3%A1%2C%20vim%20pelo%20site%20e%20preciso%20de%20ajuda.`;
+    // 4
+    const parceiroEducacional = `👨‍🏫 *Aqui para falar assunto pessoal ou da sua equipe*\n\n👉 https://wa.me/5521973561012?text=Assunto%20pessoal.`;
+    // Resposta padrão inicial
     const respostaInicial = `👋 *Seja bem-vindo à CestSegTrabalho!*\n\nEscolha uma das opções abaixo para que possamos te ajudar da melhor forma:\n\n
 1️⃣ *Digite 1* Para receber o *link do Treinamento*\n
-2️⃣ *Digite 2* Para receber a *senha da Prova*\n
-3️⃣ *Digite 3* Se está tendo *erro ao abrir o link*\n
-4️⃣ *Digite 4* Se você *veio pelo site*\n
-5️⃣ *Digite 5* Para *falar com um instrutor ou ADM da Cest*\n
-6️⃣ *Digite 6* Se você for *Engenheiro, TST, Supervisor, ADM ou Líder de Equipe* — entre em contato o quanto antes (parceiro educacional)\n`;
+2️⃣ *Digite 2* Se está tendo *erro ao abrir o link*\n
+3️⃣ *Digite 3* Se você *veio pelo site*\n
+4️⃣ *Digite 4* Para *falar com um instrutor ou ADM da Cest*\n
+5️⃣ *Digite 5* Se você for *Engenheiro, TST, Supervisor, ADM ou Líder de Equipe* — entre em contato o quanto antes (parceiro educacional)\n`;
 
+// 1
 const links = `📚 *Treinamentos Disponíveis:*\n
 Escolha somente o treinamento que lhe foi autorizado. Após Estudo, receberá prova conforme intervalo de cada treinamento. Treinamento escolhido errado será desconsiderado.\n
 1️⃣ *Digite e1* para Primeiros Socorros\n
@@ -119,18 +117,19 @@ const E1 = `*Primeiros Socorros*
 Após estudar o Treinamento, faça a Prova\n
 🔗 *Link do Treinamento abaixo:*
 👉 https://www.cestsegtrabalho.com.br/src/assets/page/capamodulo/primeiros-socorros.html\n\n
+*Só fazer prova após o Estudo ou se solicitado. Aprovou já estará registrado. Não precisa acionar a empresa.*
 🔗 *Link da Prova:*
 👉 https://cestsegtrabalho.com.br/src/assets/acessos/primeiros-socorros.html\n
-🔐 *Senha da prova:* ${ProvaSenha}`;
+🔐 *Senha copia e cola 👇*`;
 
 const E2 = `*Lei de Lucas*
 Após estudar o Treinamento, faça a Prova\n
 🔗 Link do Treinamento abaixo:
 👉 https://www.cestsegtrabalho.com.br/src/assets/page/capamodulo/primeiros-socorros.html\n\n
+*Só fazer prova após o Estudo ou se solicitado. Aprovou já estará registrado. Não precisa acionar a empresa.*
 🔗 *Link da Prova:*
 👉 https://cestsegtrabalho.com.br/src/assets/acessos/leidelucas.html\n
-🔐 *Senha da prova:* ${ProvaSenha}
-`;
+🔐 *Senha copia e cola 👇*`;
 
     // Provas
     const P1 = 'Eu sou a prova';
@@ -140,12 +139,10 @@ Após estudar o Treinamento, faça a Prova\n
     if (text === '1') {
       resposta = links;
     } else if (text === '2') {
-      resposta = senhaProva;
-    } else if (text === '3') {
       resposta = erroAbrirLink;
-    } else if (text === '4') {
+    } else if (text === '3') {
       resposta = vimPeloSite;
-    } else if (text === '6') {
+    } else if (text === '5') {
       resposta = parceiroEducacional;
     } else if (text === 'e1') {
       resposta = E1
@@ -156,7 +153,7 @@ Após estudar o Treinamento, faça a Prova\n
     }
 
     // 👉 Se o usuário digitar "5", envia os botões interativos
-    if (text === '5') {
+    if (text === '4') {
       try {
         await axios.post(
           `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
