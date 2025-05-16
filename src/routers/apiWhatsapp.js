@@ -98,17 +98,17 @@ router.post('/whatsapp/webhook', async (req, res) => {
     const parceiroEducacional = `👨‍🏫 *Aqui para falar assunto pessoal ou da sua equipe*\n\n👉 https://wa.me/5521973561012?text=Assunto%20pessoal.`;
     // Resposta padrão inicial
     const respostaInicial = `👋 *Seja bem-vindo à CestSegTrabalho!*\n\nEscolha uma das opções abaixo para que possamos te ajudar da melhor forma:\n\n
-1️⃣ *Digite 1* Para receber o *link do Treinamento*\n
-2️⃣ *Digite 2* Se está tendo *erro ao abrir o link*\n
-3️⃣ *Digite 3* Se você *veio pelo site*\n
-4️⃣ *Digite 4* Para *falar com um instrutor ou ADM da Cest*\n
-5️⃣ *Digite 5* Se você for *Engenheiro, TST, Supervisor, ADM ou Líder de Equipe* — entre em contato o quanto antes (parceiro educacional)\n`;
+1️⃣ *Digite A* Para receber o *link do Treinamento*\n
+2️⃣ *Digite B* Se está tendo *erro ao abrir o link*\n
+3️⃣ *Digite C* Se você *veio pelo site*\n
+4️⃣ *Digite D* Para *falar com um instrutor ou ADM da Cest*\n
+5️⃣ *Digite E* Se você for *Engenheiro, TST, Supervisor, ADM ou Líder de Equipe* — entre em contato o quanto antes (parceiro educacional)\n`;
 
 // 1
 const links = `📚 *Treinamentos Disponíveis:*\n
 Escolha somente o treinamento que lhe foi autorizado. Após Estudo, receberá prova conforme intervalo de cada treinamento. Treinamento escolhido errado será desconsiderado.\n
-1️⃣ *Digite e1* para Primeiros Socorros\n
-2️⃣ *Digite e2* para Lei de Lucas\n`;
+1️⃣ *Digite 1* para Primeiros Socorros\n
+2️⃣ *Digite 2* para Lei de Lucas\n`;
 
 // Treinamentos
 const E1 = `*Primeiros Socorros*
@@ -134,24 +134,24 @@ Após estudar o Treinamento, faça a Prova\n
     const P2 = 'Eu sou a prova';
     let resposta;
 
-    if (text === '1') {
+    if (text === 'a') {
       resposta = links;
-    } else if (text === '2') {
+    } else if (text === 'b') {
       resposta = erroAbrirLink;
-    } else if (text === '3') {
+    } else if (text === 'c') {
       resposta = vimPeloSite;
-    } else if (text === '5') {
+    } else if (text === 'e') {
       resposta = parceiroEducacional;
-    } else if (text === 'e1') {
+    } else if (text === '1') {
       resposta = E1
-    } else if (text === 'e2') {
+    } else if (text === '2') {
       resposta = E2
     } else {
       resposta = respostaInicial;
     }
 
     // 👉 Se o usuário digitar "5", envia os botões interativos
-    if (text === '4') {
+    if (text === 'd') {
       try {
         await axios.post(
           `https://graph.facebook.com/v19.0/${phoneNumberId}/messages`,
