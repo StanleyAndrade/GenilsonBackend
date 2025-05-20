@@ -75,7 +75,7 @@ const dobrasCutaneasSchema = new mongoose.Schema ({
         type: String,
         required: false
     }
-}, {timestamps: false})
+}, {timestamps: true})
 
 //Put calcSchema inside CalcModel
 const DobrasCutaneasModel = mongoose.model('histotico', dobrasCutaneasSchema)
