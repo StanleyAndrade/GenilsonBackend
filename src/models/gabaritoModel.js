@@ -9,7 +9,7 @@ const gabaritoSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-})
+}, {timestamps: true})
 
 const gabaritoModel = mongoose.model('gabaritomodel', gabaritoSchema)
 module.exports = gabaritoModel, gabaritoSchema

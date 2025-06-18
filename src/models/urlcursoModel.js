@@ -5,7 +5,7 @@ const urlcursoSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-})
+}, {timestamps: true})
 
 const urlcursoModel = mongoose.model('urlcursomodel', urlcursoSchema)
 module.exports = urlcursoModel, urlcursoSchema

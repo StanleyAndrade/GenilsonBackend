@@ -29,7 +29,7 @@ const treinoGymSchema = new mongoose.Schema({
         type: Array,
         required: false
     },
-})
+}, {timestamps: true})
 
 const treinoGymModel = mongoose.model('treinogymmodel', treinoGymSchema)
 module.exports = treinoGymModel, treinoGymSchema

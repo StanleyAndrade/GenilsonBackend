@@ -9,7 +9,7 @@ const categoriaSchema = new mongoose.Schema({
     required: false,
   },
   // Outros campos relevantes para sua categoria
-});
+}, {timestamps: true});
 
 const Categoria = mongoose.model('Categoria', categoriaSchema);
 

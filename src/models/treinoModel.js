@@ -41,7 +41,7 @@ const treinoSchema = new mongoose.Schema({
         type: String,
         required: false
     }
-})
+}, {timestamps: true})
 
 const treinoModel = mongoose.model('provamodel', treinoSchema)
 module.exports = treinoModel, treinoSchema
