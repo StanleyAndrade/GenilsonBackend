@@ -96,28 +96,14 @@ app.use('/', routerGabarito)
 const apiWhatsapp = require('./src/routers/apiWhatsapp')
 app.use('/', apiWhatsapp)
 
-// const routerQuiz = require('./src/routers/quiz')
-// app.use('/', routerQuiz)
+const routerHistoricoCurso = require('./src/routers/routerHistoricoCurso')
+app.use('/', routerHistoricoCurso)
 
-// * ========== ROUTERS ======== *
-
-// // Lendo certificado SSL e chave
-// const privateKey = fs.readFileSync('/caminho/para/sua/chave/privada.pem', 'utf8');
-// const certificate = fs.readFileSync('/caminho/para/seu/certificado/certificado.pem', 'utf8');
-// const credentials = { key: privateKey, cert: certificate };
+const routerHistoricoProva = require('./src/routers/routerHistoricoProva')
+app.use('/', routerHistoricoProva)
 
 // Definindo a porta
 const port = 8080;
 
 // Função que será executada quando o servidor ficar online
 app.listen(port, '0.0.0.0', () => console.log(`Rodando com Express na porta ${port}`));
-
-// https.createServer({
-//     cert: fs.readFileSync('ssl/certificado.crt'),
-//     key: fs.readFileSync('ssl/chaveprivada.key')
-// }, app).listen(3000, () => console.log("Rodando em https") )
-
-// // Função que será executada quando o servidor ficar online
-// https.createServer(credentials, app).listen(port, '0.0.0.0', () => {
-//     console.log(`Rodando com Express na porta ${port} via HTTPS`);
-// });
