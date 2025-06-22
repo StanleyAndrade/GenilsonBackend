@@ -11,5 +11,5 @@ const gabaritoSchema = new mongoose.Schema({
     },
 }, {timestamps: true})
 
-const gabaritoModel = mongoose.model('gabaritomodel', gabaritoSchema)
+const gabaritoModel = mongoose.model('gabarito', gabaritoSchema)
 module.exports = gabaritoModel, gabaritoSchema
